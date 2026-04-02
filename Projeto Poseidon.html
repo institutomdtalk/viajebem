@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>POSEIDON — MD Talk · Inglês para Viagens</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500&family=DM+Sans:wght@300;400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0e1c30;
+    --navy-mid:   #132038;
+    --navy-light: #1a2d4a;
+    --silver:        #b8c4d0;
+    --silver-light:  #dce4ec;
+    --silver-pale:   #eef2f6;
+    --pure-white:    #ffffff;
+    --accent-silver: #c9d6e3;
+    --gold:          #c9a96e;
+    --gold-light:    #e0c990;
+    --rule:          rgba(184,196,208,0.3);
+    --rule-strong:   rgba(184,196,208,0.6);
+    --rule-gold:     rgba(201,169,110,0.25);
+
+    /* module accents — oceanic, travel-inspired */
+    --m1: #c9a96e; /* champagne — Saudações */
+    --m2: #7aafc9; /* azul-céu — Aeroporto */
+    --m3: #8abda8; /* verde-menta — Locomoção */
+    --m4: #b49ac9; /* lavanda — Hospedagem */
+    --m5: #c4a882; /* terracota — Gastronomia */
+    --m6: #9ecfb4; /* verde-sage — Compras */
+    --m7: #d4a0a0; /* rosa-urgência — Emergências */
+    --m8: #e0c990; /* dourado — Viajante Confiante */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--navy);
+    color: var(--silver-light);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /*  REVEAL  */
+  .reveal { transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+  .reveal.hidden { opacity: 0; transform: translateY(32px); }
+  .reveal-delay-1 { transition-delay: 0.10s; }
+  .reveal-delay-2 { transition-delay: 0.22s; }
+  .reveal-delay-3 { transition-delay: 0.36s; }
+  .reveal-delay-4 { transition-delay: 0.50s; }
+
+  /*  NAV  */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 60px;
+    padding-left: calc(60px + env(safe-area-inset-left));
+    padding-right: calc(60px + env(safe-area-inset-right));
+    background: linear-gradient(to bottom, rgba(14,28,48,0.95) 0%, rgba(14,28,48,0) 100%);
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(14,28,48,0.97);
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 60px;
+    padding-left: calc(60px + env(safe-area-inset-left));
+    padding-right: calc(60px + env(safe-area-inset-right));
+  }
+  .nav-logo {
+    font-family: 'Raleway', sans-serif; font-weight: 200;
+    font-size: 0.7rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--silver);
+  }
+  .nav-logo span { font-weight: 400; color: var(--pure-white); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Raleway', sans-serif; font-size: 0.65rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--silver); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--pure-white); }
+
+  /*  HERO  */
+  .hero {
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; position: relative;
+    padding: 120px 40px 80px; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(122,175,201,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 60% at 50% 80%, rgba(19,32,56,0.7) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Raleway', sans-serif; font-weight: 300;
+    font-size: 0.65rem; letter-spacing: 0.55em; text-transform: uppercase;
+    color: var(--silver); margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(5.5rem, 14vw, 12rem);
+    line-height: 0.9; letter-spacing: -0.02em;
+    color: var(--pure-white); margin-bottom: 16px;
+    opacity: 0; animation: fadeUp 1.1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+    position: relative; z-index: 2;
+  }
+  .hero-title em { font-style: italic; color: var(--pure-white); }
+  .hero-subtitle-row {
+    display: flex; align-items: center; gap: 24px; margin-bottom: 56px;
+    opacity: 0; animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.75s forwards;
+    position: relative; z-index: 2;
+  }
+  .rule-line { width: 48px; height: 1px; background: var(--silver); opacity: 0.5; }
+  .hero-subtitle {
+    font-family: 'Raleway', sans-serif; font-weight: 200;
+    font-size: 0.72rem; letter-spacing: 0.38em; text-transform: uppercase; color: var(--silver);
+  }
+  .hero-descriptor {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-style: italic;
+    color: var(--silver-light); max-width: 600px; line-height: 1.8;
+    opacity: 0; animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.95s forwards;
+    position: relative; z-index: 2;
+  }
+  .hero-age-badge {
+    margin-top: 40px;
+    display: inline-flex; align-items: center; gap: 16px;
+    border: 1px solid rgba(201,169,110,0.3); padding: 12px 28px;
+    opacity: 0; animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 1.1s forwards;
+    position: relative; z-index: 2;
+  }
+  .hero-age-badge span {
+    font-family: 'Raleway', sans-serif; font-size: 0.6rem;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+  }
+  .hero-age-badge .age-dot { width: 4px; height: 4px; background: var(--gold); opacity: 0.5; border-radius: 50%; }
+  .hero-scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0; animation: fadeIn 1s ease 2s forwards;
+  }
+  .hero-scroll-indicator span {
+    font-family: 'Raleway', sans-serif; font-size: 0.55rem;
+    letter-spacing: 0.4em; text-transform: uppercase; color: var(--silver); opacity: 0.5;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--silver), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /*  DIVIDER  */
+  .section-divider { width: 100%; height: 1px; background: var(--rule); }
+
+  /*  SECTIONS  */
+  section { position: relative; padding: 120px 60px; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Raleway', sans-serif; font-weight: 300;
+    font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--silver); opacity: 0.6; margin-bottom: 56px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--silver); opacity: 0.5;
+  }
+
+  /*  POSEIDON MEANING  */
+  .poseidon-meaning {
+    background: var(--navy-mid);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 100px 60px;
+  }
+  .poseidon-meaning-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 200px 1fr; gap: 80px; align-items: center;
+  }
+  .poseidon-greek {
+    font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300;
+    color: rgba(122,175,201,0.2); line-height: 1; letter-spacing: -0.03em; text-align: center;
+  }
+  .poseidon-greek-label {
+    font-family: 'Raleway', sans-serif; font-size: 0.55rem;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--silver); opacity: 0.4; text-align: center; margin-top: 8px;
+  }
+  .poseidon-definition {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-style: italic;
+    color: var(--silver-light); line-height: 1.6;
+  }
+  .poseidon-definition strong { font-style: normal; font-weight: 500; color: var(--pure-white); }
+
+  /*  CONCEITO  */
+  .conceito-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .conceito-heading {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2.4rem, 4.5vw, 4rem); line-height: 1.15;
+    color: var(--pure-white); letter-spacing: -0.01em;
+  }
+  .conceito-heading em { font-style: italic; color: var(--gold-light); }
+  .conceito-body p {
+    font-size: 0.95rem; line-height: 1.9; color: var(--silver-light);
+    margin-bottom: 24px; font-weight: 300;
+  }
+  .conceito-body p:last-child { margin-bottom: 0; }
+
+  /*  PARA QUEM  */
+  .paraquem-section {
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 110px 60px;
+  }
+  .paraquem-inner { max-width: 1200px; margin: 0 auto; }
+  .paraquem-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 2px; background: var(--rule); margin-top: 64px;
+  }
+  .paraquem-card {
+    background: var(--navy); padding: 48px 36px;
+    transition: background 0.35s; position: relative; overflow: hidden;
+  }
+  .paraquem-card:hover { background: var(--navy-mid); }
+  .paraquem-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0); transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .paraquem-card:hover::after { transform: scaleX(1); }
+  .paraquem-icon { font-size: 2rem; margin-bottom: 24px; display: block; opacity: 0.8; }
+  .paraquem-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400;
+    color: var(--pure-white); margin-bottom: 16px; line-height: 1.2;
+  }
+  .paraquem-desc { font-size: 0.85rem; line-height: 1.8; color: var(--silver-light); }
+
+  /*  MÓDULOS  */
+  .modulos-header { margin-bottom: 80px; }
+  .modulos-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2rem, 4vw, 3.2rem); color: var(--pure-white);
+    line-height: 1.2; margin-bottom: 24px;
+  }
+  .modulos-intro { font-size: 0.9rem; line-height: 1.8; color: var(--silver); max-width: 560px; }
+
+  /* 8 modules: 2 rows of 4 */
+  .modulos-grid-row {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 2px; background: var(--rule); margin-bottom: 2px;
+  }
+  .modulos-grid-row:last-child { margin-bottom: 0; }
+
+  .modulo-card {
+    background: var(--navy); padding: 40px 32px;
+    transition: background 0.4s; position: relative; overflow: hidden;
+  }
+  .modulo-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 2px; height: 0;
+    transition: height 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .modulo-card:hover::before { height: 100%; }
+  .modulo-card:hover { background: var(--navy-mid); }
+
+  .mc-1::before { background: var(--m1); }
+  .mc-2::before { background: var(--m2); }
+  .mc-3::before { background: var(--m3); }
+  .mc-4::before { background: var(--m4); }
+  .mc-5::before { background: var(--m5); }
+  .mc-6::before { background: var(--m6); }
+  .mc-7::before { background: var(--m7); }
+  .mc-8::before { background: var(--m8); }
+
+  .modulo-number {
+    font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300;
+    color: rgba(201,169,110,0.08); line-height: 1; margin-bottom: 20px; letter-spacing: -0.04em;
+  }
+  .modulo-tag-en {
+    font-family: 'Raleway', sans-serif; font-weight: 200; font-size: 0.55rem;
+    letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85;
+  }
+  .mc-1 .modulo-tag-en { color: var(--m1); }
+  .mc-2 .modulo-tag-en { color: var(--m2); }
+  .mc-3 .modulo-tag-en { color: var(--m3); }
+  .mc-4 .modulo-tag-en { color: var(--m4); }
+  .mc-5 .modulo-tag-en { color: var(--m5); }
+  .mc-6 .modulo-tag-en { color: var(--m6); }
+  .mc-7 .modulo-tag-en { color: var(--m7); }
+  .mc-8 .modulo-tag-en { color: var(--m8); }
+
+  .modulo-icon { font-size: 1.4rem; margin-bottom: 12px; display: block; opacity: 0.7; }
+  .modulo-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: 1.1rem; color: var(--pure-white); margin-bottom: 6px; line-height: 1.3;
+  }
+  .modulo-subtitle { font-size: 0.72rem; color: var(--silver); opacity: 0.6; margin-bottom: 16px; font-style: italic; }
+  .modulo-units { list-style: none; padding: 0; border-top: 1px solid var(--rule); padding-top: 14px; }
+  .modulo-units li {
+    font-size: 0.72rem; color: var(--silver); line-height: 1.5;
+    padding: 5px 0 5px 12px; position: relative;
+    border-bottom: 1px solid rgba(184,196,208,0.07);
+  }
+  .modulo-units li:last-child { border-bottom: none; }
+  .modulo-units li::before {
+    content: ''; position: absolute; left: 0; top: 12px;
+    width: 4px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+
+  /* survival phrases highlight */
+  .phrase-block {
+    margin-top: 14px; padding: 12px 14px;
+    background: rgba(201,169,110,0.06);
+    border-left: 1px solid rgba(201,169,110,0.3);
+  }
+  .phrase-label {
+    font-family: 'Raleway', sans-serif; font-size: 0.5rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.7; margin-bottom: 8px;
+  }
+  .phrase-item {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 0.8rem; color: var(--silver-light); line-height: 1.6;
+  }
+
+  /*  SELF-STUDY / COMO FUNCIONA  */
+  .como-section {
+    background: var(--navy-mid);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 110px 60px;
+  }
+  .como-inner { max-width: 1200px; margin: 0 auto; }
+  .como-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 64px; }
+  .como-left { border-left: 1px solid var(--rule-strong); padding-left: 48px; }
+  .como-lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300;
+    color: var(--pure-white); line-height: 1.3; margin-bottom: 24px;
+  }
+  .como-lead em { font-style: italic; color: var(--gold-light); }
+  .como-body { font-size: 0.9rem; line-height: 1.85; color: var(--silver-light); }
+  .como-body p { margin-bottom: 18px; }
+  .como-body p:last-child { margin-bottom: 0; }
+  .como-items { display: flex; flex-direction: column; }
+  .como-item {
+    display: grid; grid-template-columns: 80px 1fr; gap: 20px; align-items: start;
+    padding: 20px 0; border-bottom: 1px solid var(--rule);
+  }
+  .como-item:last-child { border-bottom: none; }
+  .como-tag {
+    font-family: 'Raleway', sans-serif; font-size: 0.55rem;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding-top: 3px;
+  }
+  .como-name { font-size: 0.85rem; line-height: 1.65; color: var(--silver-light); }
+  .como-name strong {
+    display: block; font-weight: 400; color: var(--pure-white);
+    margin-bottom: 4px; font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+  }
+
+  /*  INVESTIMENTO  */
+  .investment-section {
+    background: var(--navy-mid); border-top: 1px solid var(--rule); padding: 110px 60px;
+  }
+  .investment-inner { max-width: 1200px; margin: 0 auto; }
+  .investment-header {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: start; margin-bottom: 72px;
+  }
+  .investment-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem); line-height: 1.1;
+    color: var(--pure-white); letter-spacing: -0.01em;
+  }
+  .investment-note { font-size: 0.88rem; line-height: 1.85; color: var(--silver); margin-bottom: 28px; }
+  .ciclo-badge {
+    display: inline-flex; align-items: center; gap: 12px;
+    border: 1px solid var(--rule-strong); padding: 10px 20px;
+  }
+  .ciclo-badge span {
+    font-family: 'Raleway', sans-serif; font-size: 0.6rem;
+    letter-spacing: 0.35em; text-transform: uppercase; color: var(--silver);
+  }
+  .ciclo-dot { width: 5px; height: 5px; background: var(--silver); opacity: 0.4; }
+  .pricing-main {
+    background: var(--navy); border: 1px solid var(--rule);
+    padding: 56px 56px 48px; position: relative; overflow: hidden; margin-bottom: 2px;
+  }
+  .pricing-main::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .price-eyebrow {
+    font-family: 'Raleway', sans-serif; font-size: 0.6rem;
+    letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); opacity: 0.8; margin-bottom: 20px;
+  }
+  .price-value-large {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(3rem, 6vw, 5rem); line-height: 1; color: var(--pure-white);
+    letter-spacing: -0.02em; margin-bottom: 8px;
+  }
+  .price-value-large small {
+    font-size: 0.38em; font-weight: 300; color: var(--silver);
+    font-family: 'Raleway', sans-serif; vertical-align: middle; margin-left: 8px;
+  }
+  .price-desc { font-size: 0.88rem; line-height: 1.8; color: var(--silver-light); max-width: 640px; margin-top: 20px; }
+  .pricing-alt-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--rule); margin-bottom: 2px;
+  }
+  .price-alt-cell { background: var(--navy); padding: 40px 48px; transition: background 0.3s; }
+  .price-alt-cell:hover { background: var(--navy-mid); }
+  .price-alt-label {
+    font-family: 'Raleway', sans-serif; font-size: 0.58rem;
+    letter-spacing: 0.35em; text-transform: uppercase; color: var(--silver); opacity: 0.6; margin-bottom: 14px;
+  }
+  .price-alt-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300;
+    color: var(--pure-white); line-height: 1; margin-bottom: 8px;
+  }
+  .price-alt-value small {
+    font-size: 0.4em; font-family: 'Raleway', sans-serif; font-weight: 300; color: var(--silver); vertical-align: middle;
+  }
+  .price-alt-note { font-size: 0.78rem; line-height: 1.7; color: var(--silver); margin-top: 10px; }
+  .price-alt-note em { color: var(--gold-light); font-style: italic; }
+  .banking-row {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 2px; background: var(--rule); margin-top: 2px;
+  }
+  .banking-cell {
+    background: var(--navy); padding: 32px 36px;
+    display: flex; align-items: center; gap: 20px; transition: background 0.3s;
+  }
+  .banking-cell:hover { background: var(--navy-mid); }
+  .banking-icon { width: 36px; height: 36px; opacity: 0.4; flex-shrink: 0; }
+  .banking-icon svg { width: 100%; height: 100%; stroke: var(--silver); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .banking-text { font-size: 0.82rem; line-height: 1.6; color: var(--silver-light); }
+  .banking-text strong {
+    display: block; font-weight: 400; color: var(--pure-white);
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; margin-bottom: 2px;
+  }
+
+  /*  FOOTER  */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 64px 60px;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    display: flex; align-items: center; justify-content: space-between; position: relative;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: 2rem; color: var(--pure-white); letter-spacing: 0.08em;
+  }
+  .footer-meta { text-align: right; }
+  .footer-author {
+    font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 0.62rem;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--silver); opacity: 0.6; margin-bottom: 6px;
+  }
+  .footer-taglines {
+    font-family: 'Raleway', sans-serif; font-weight: 200; font-size: 0.55rem;
+    letter-spacing: 0.35em; text-transform: uppercase; color: var(--silver); opacity: 0.35; line-height: 2;
+  }
+  .footer-center { position: absolute; left: 50%; transform: translateX(-50%); text-align: center; }
+  .footer-center-line { width: 1px; height: 32px; background: var(--rule-strong); margin: 0 auto 16px; }
+  .footer-md {
+    font-family: 'Raleway', sans-serif; font-size: 0.6rem;
+    letter-spacing: 0.5em; text-transform: uppercase; color: var(--silver); opacity: 0.4;
+  }
+
+  /*  ANIMATIONS  */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes scrollPulse {
+    0%,100% { opacity:0.3; transform:scaleY(1); }
+    50% { opacity:0.7; transform:scaleY(1.1); }
+  }
+
+  /*  RESPONSIVE  */
+  @media (max-width: 900px) {
+    nav { padding: 22px 28px; }
+    nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; }
+    section { padding: 80px 28px; }
+    .conceito-grid, .poseidon-meaning-inner, .como-grid, .investment-header { grid-template-columns: 1fr; gap: 48px; }
+    .paraquem-grid { grid-template-columns: 1fr; }
+    .modulos-grid-row { grid-template-columns: repeat(2,1fr); }
+    .pricing-alt-grid, .banking-row { grid-template-columns: 1fr; }
+    .poseidon-meaning, .paraquem-section, .como-section, .investment-section { padding: 80px 28px; }
+    footer { flex-direction: column; gap: 40px; text-align: center; padding: 48px 28px; }
+    .footer-meta { text-align: center; }
+    .footer-center { position: static; transform: none; }
+    .hero-title { font-size: clamp(4rem, 18vw, 8rem); }
+  }
+  @media (max-width: 500px) {
+    .modulos-grid-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo"><span>POSEIDON</span> &nbsp;·&nbsp; MD Talk</div>
+  <ul class="nav-links">
+    <li><a href="#conceito">Conceito</a></li>
+    <li><a href="#para-quem">Para Quem</a></li>
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#investimento">Investimento</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">MD Talk &nbsp;·&nbsp; Travel English Program</p>
+  <h1 class="hero-title">P<em>oseid</em>on</h1>
+  <div class="hero-subtitle-row">
+    <div class="rule-line"></div>
+    <p class="hero-subtitle">Inglês para Viagens &nbsp;·&nbsp; 8 Módulos</p>
+    <div class="rule-line"></div>
+  </div>
+  <p class="hero-descriptor">O inglês que você precisa para ir a qualquer lugar do mundo — com confiança, clareza e sem depender de ninguém.</p>
+  <div class="hero-age-badge">
+    <div class="age-dot"></div>
+    <span>Self-Study &nbsp;·&nbsp; Acesso Imediato &nbsp;·&nbsp; Do Embarque à Chegada</span>
+    <div class="age-dot"></div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- POSEIDON MEANING -->
+<div class="poseidon-meaning" id="conceito">
+  <div class="poseidon-meaning-inner">
+    <div class="reveal">
+      <div class="poseidon-greek">Ποσειδῶν</div>
+      <div class="poseidon-greek-label">Grego antigo</div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <p class="poseidon-definition">
+        <strong>Poseidon</strong> — o deus dos mares, das tempestades e das travessias. Senhor de tudo que se move entre fronteiras, dos ventos que empurram as velas e dos caminhos que ligam continentes. <em>Quem viaja com Poseidon não pede passagem: ele a abre.</em>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEITO -->
+<section>
+  <div class="conceito-grid">
+    <div class="reveal">
+      <div class="section-label">Sobre o programa</div>
+      <h2 class="conceito-heading">O inglês que faz<br><em>a viagem acontecer.</em></h2>
+    </div>
+    <div class="conceito-body reveal reveal-delay-2">
+      <p>POSEIDON é o programa de inglês para quem vai viajar — ou quer finalmente viajar sem ansiedade. Oito módulos que cobrem cada situação crítica de uma viagem internacional: do primeiro cumprimento no balcão do check-in até a última compra na loja duty free.</p>
+      <p>Não é um curso de gramática com exemplos de viagem. É um programa de sobrevivência linguística de alto padrão — com as frases certas, o vocabulário que realmente aparece, as situações que ninguém ensina mas todo mundo encontra. Incluindo as emergências.</p>
+      <p>100% online, 100% self-study, com acesso imediato. Você pode começar hoje e estar pronto para embarcar amanhã.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PARA QUEM -->
+<div class="paraquem-section" id="para-quem">
+  <div class="paraquem-inner">
+    <div class="section-label reveal">Para quem é o Poseidon</div>
+    <div class="reveal reveal-delay-1">
+      <h2 class="modulos-title" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4vw,3.2rem);color:var(--pure-white);line-height:1.2;margin-bottom:24px;">Três viajantes.<br>Um mesmo destino: autonomia.</h2>
+    </div>
+    <div class="paraquem-grid">
+      <div class="paraquem-card reveal reveal-delay-1">
+                <div class="paraquem-title">A primeira viagem internacional</div>
+        <p class="paraquem-desc">Vai viajar pela primeira vez e o inglês é a única coisa que está faltando para embarcar com confiança. O POSEIDON te dá exatamente o que você precisa saber — sem excessos, sem teoria, sem perda de tempo.</p>
+      </div>
+      <div class="paraquem-card reveal reveal-delay-2">
+                <div class="paraquem-title">O viajante que já vai mas trava</div>
+        <p class="paraquem-desc">Já viajou antes, se virou como pôde, mas sabe que poderia ter aproveitado muito mais se tivesse o inglês do lado. O POSEIDON organiza o que está solto e ativa o que ficou represado.</p>
+      </div>
+      <div class="paraquem-card reveal reveal-delay-3">
+                <div class="paraquem-title">Quem viaja sempre e quer ir além</div>
+        <p class="paraquem-desc">Viajante frequente que quer ir além do básico — conversar com fluência, não só se virar. O POSEIDON refina o vocabulário, elimina as lacunas e entrega o inglês que faz a viagem ser uma experiência completa.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- MÓDULOS -->
+<section id="modulos">
+  <div class="modulos-header reveal">
+    <div class="section-label">Arquitetura do programa</div>
+    <h2 class="modulos-title">Oito módulos.<br>Uma viagem completa em inglês.</h2>
+    <p class="modulos-intro">Do primeiro "Hello" até o viajante que não precisa mais de ajuda — uma progressão construída para o mundo real, não para a sala de aula.</p>
+  </div>
+
+  <!-- ROW 1: módulos 1–4 -->
+  <div class="modulos-grid-row">
+
+    <div class="modulo-card mc-1 reveal reveal-delay-1">
+      <div class="modulo-number">01</div>
+      <div class="modulo-tag-en">Greetings · First Impressions</div>
+            <h3 class="modulo-title">Saudações e Primeiras Impressões</h3>
+      <div class="modulo-subtitle">O começo de tudo</div>
+      <ul class="modulo-units">
+        <li>Cumprimentos formais e informais em contexto real</li>
+        <li>Apresentações: nome, origem, profissão</li>
+        <li>Small talk: clima, viagem, destino</li>
+        <li>Expressões de cortesia e agradecimento</li>
+        <li>Como soar natural — não apenas correto</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"Nice to meet you." · "I'm here on vacation." · "Could you repeat that, please?"</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-2 reveal reveal-delay-2">
+      <div class="modulo-number">02</div>
+      <div class="modulo-tag-en">Airport · Flight · Immigration</div>
+            <h3 class="modulo-title">Aeroporto, Voo e Imigração</h3>
+      <div class="modulo-subtitle">Do check-in ao carimbo no passaporte</div>
+      <ul class="modulo-units">
+        <li>Check-in, bagagem e portão de embarque</li>
+        <li>A bordo: pedidos, serviço e emergências</li>
+        <li>Imigração: perguntas e respostas obrigatórias</li>
+        <li>Alfândega e declaração de bens</li>
+        <li>Conexões, atrasos e mudança de voo</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"Window seat, please." · "Do I need to declare this?" · "My flight was delayed."</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-3 reveal reveal-delay-3">
+      <div class="modulo-number">03</div>
+      <div class="modulo-tag-en">Urban Mobility</div>
+            <h3 class="modulo-title">Locomoção Urbana</h3>
+      <div class="modulo-subtitle">Da cidade ao destino</div>
+      <ul class="modulo-units">
+        <li>Táxi, Uber e transporte por aplicativo</li>
+        <li>Metrô, ônibus e trem urbano</li>
+        <li>Pedir e entender direções</li>
+        <li>Alugar carro: vocabulário e processo</li>
+        <li>Mapas, GPS e orientação em inglês</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"Take me to this address." · "How far is it?" · "Is this the right platform?"</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-4 reveal reveal-delay-4">
+      <div class="modulo-number">04</div>
+      <div class="modulo-tag-en">Accommodation</div>
+            <h3 class="modulo-title">Hospedagem</h3>
+      <div class="modulo-subtitle">Do check-in ao check-out</div>
+      <ul class="modulo-units">
+        <li>Check-in e check-out no hotel</li>
+        <li>Pedidos e solicitações ao front desk</li>
+        <li>Problemas no quarto: como resolver</li>
+        <li>Serviços do hotel: room service, concierge</li>
+        <li>Reclamações e pedidos de troca</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"I have a reservation." · "The AC isn't working." · "Late check-out, please."</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2: módulos 5–8 -->
+  <div class="modulos-grid-row">
+
+    <div class="modulo-card mc-5 reveal reveal-delay-1">
+      <div class="modulo-number">05</div>
+      <div class="modulo-tag-en">Food & Dining</div>
+            <h3 class="modulo-title">Experiências Gastronômicas</h3>
+      <div class="modulo-subtitle">Da reserva à sobremesa</div>
+      <ul class="modulo-units">
+        <li>Fazer reservas e ser recebido no restaurante</li>
+        <li>Ler cardápio e fazer pedidos com confiança</li>
+        <li>Restrições alimentares e alergias</li>
+        <li>Perguntar sobre pratos e ingredientes</li>
+        <li>Pagar a conta, gorjeta e avaliações</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"I'm allergic to nuts." · "What do you recommend?" · "Can I have the check, please?"</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-6 reveal reveal-delay-2">
+      <div class="modulo-number">06</div>
+      <div class="modulo-tag-en">Shopping</div>
+            <h3 class="modulo-title">Compras</h3>
+      <div class="modulo-subtitle">De lojas a mercados</div>
+      <ul class="modulo-units">
+        <li>Pedir ajuda e encontrar produtos</li>
+        <li>Tamanhos, cores e especificações</li>
+        <li>Preços, descontos e negociação</li>
+        <li>Formas de pagamento e troco</li>
+        <li>Devoluções, trocas e reclamações</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"Do you have this in a medium?" · "Can I try this on?" · "I'd like a refund, please."</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-7 reveal reveal-delay-3">
+      <div class="modulo-number">07</div>
+      <div class="modulo-tag-en">Pharmacy & Emergencies</div>
+            <h3 class="modulo-title">Farmácia e Emergências</h3>
+      <div class="modulo-subtitle">O inglês que pode salvar</div>
+      <ul class="modulo-units">
+        <li>Farmácia: descrever sintomas e pedir medicamentos</li>
+        <li>Pronto-socorro: comunicar o que está sentindo</li>
+        <li>Seguro viagem: vocabulário e situações</li>
+        <li>Roubo e perda de documentos: o que dizer</li>
+        <li>Ligar para emergência: 911, 999 e outros</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Frases essenciais</div>
+        <div class="phrase-item">"I need a painkiller." · "I was robbed." · "Call an ambulance, please."</div>
+      </div>
+    </div>
+
+    <div class="modulo-card mc-8 reveal reveal-delay-4">
+      <div class="modulo-number">08</div>
+      <div class="modulo-tag-en">The Confident Traveller</div>
+            <h3 class="modulo-title">O Viajante Confiante</h3>
+      <div class="modulo-subtitle">A chegada ao alto desempenho</div>
+      <ul class="modulo-units">
+        <li>Revisão integrada dos 8 módulos</li>
+        <li>Situações inesperadas: improvisar em inglês</li>
+        <li>Fazer amigos: conversas além do necessário</li>
+        <li>Reclamações formais: hotel, companhia aérea</li>
+        <li>Simulação completa de viagem do início ao fim</li>
+      </ul>
+      <div class="phrase-block">
+        <div class="phrase-label">Marco de chegada</div>
+        <div class="phrase-item">"The traveller who doesn't need to ask for help — they give it."</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- COMO FUNCIONA -->
+<div class="como-section" id="como-funciona">
+  <div class="como-inner">
+    <div class="section-label reveal">Como funciona</div>
+    <div class="como-grid">
+      <div class="como-left reveal reveal-delay-1">
+        <h2 class="como-lead">Self-study.<br><em>Acesso imediato. Sem espera.</em></h2>
+        <div class="como-body">
+          <p>POSEIDON é 100% online e autogerenciado — sem turmas, sem aulas ao vivo, sem grade horária. Você acessa imediatamente após a matrícula e começa a estudar no mesmo dia. Se a viagem é semana que vem, você pode estar pronto.</p>
+          <p>O programa foi construído para funcionar na prática — não na teoria. Cada módulo simula situações reais com vocabulário e frases que realmente aparecem no mundo lá fora. Nada é ensinado por ensinado: tudo tem aplicação imediata.</p>
+          <p>Você pode estudar do início ao fim em sequência — ou acessar diretamente o módulo da sua necessidade mais urgente. O POSEIDON funciona como um manual de campo: você abre onde precisa.</p>
+        </div>
+      </div>
+      <div class="como-items reveal reveal-delay-2">
+        <div class="como-item">
+          <div class="como-tag">Acesso</div>
+          <div class="como-name"><strong>Imediato após matrícula</strong>Disponível em qualquer dispositivo assim que a confirmação chega. Sem espera, sem turma, sem calendário.</div>
+        </div>
+        <div class="como-item">
+          <div class="como-tag">Formato</div>
+          <div class="como-name"><strong>Manual de campo</strong>Pode ser estudado em sequência ou por módulo isolado. Se a urgência é o aeroporto, você vai direto ao Módulo 2.</div>
+        </div>
+        <div class="como-item">
+          <div class="como-tag">Conteúdo</div>
+          <div class="como-name"><strong>Situações reais, frases reais</strong>Cada módulo inclui o vocabulário essencial, as estruturas mais usadas e as frases de sobrevivência que funcionam no mundo real.</div>
+        </div>
+        <div class="como-item">
+          <div class="como-tag">Ritmo</div>
+          <div class="como-name"><strong>Do seu jeito</strong>Estuda tudo de uma vez antes da viagem ou um módulo por semana. O programa se adapta à sua necessidade.</div>
+        </div>
+        <div class="como-item">
+          <div class="como-tag">Acesso</div>
+          <div class="como-name"><strong>Permanente</strong>O conteúdo fica disponível para consulta a qualquer momento — antes, durante e depois da viagem.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTIMENTO -->
+<div class="investment-section" id="investimento">
+  <div class="investment-inner">
+    <div class="investment-header">
+      <div class="reveal">
+        <div class="section-label">Investimento</div>
+        <h2 class="investment-title">Valores<br>&amp; Condições</h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="investment-note">O programa POSEIDON é inteiramente online — acesso imediato após a confirmação de matrícula, sem turmas e sem grade horária. Oito módulos disponíveis desde o primeiro acesso, para consulta permanente.</p>
+        <div class="ciclo-badge">
+          <div class="ciclo-dot"></div>
+          <span>Acesso Online &nbsp;·&nbsp; Imediato &nbsp;·&nbsp; 100% Self-Study</span>
+          <div class="ciclo-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-main reveal">
+      <div class="price-eyebrow">Pagamento à vista · Melhor condição</div>
+      <div class="price-value-large">R$ 2.500<small>à vista</small></div>
+      <p class="price-desc">Acesso completo aos oito módulos do programa POSEIDON — do primeiro cumprimento ao viajante confiante. Vocabulário real, frases de sobrevivência, situações de emergência. Pagamento único, sem juros, melhor condição.</p>
+    </div>
+
+    <div class="pricing-alt-grid reveal reveal-delay-1">
+      <div class="price-alt-cell">
+        <div class="price-alt-label">Parcelado · Até 10x com juros</div>
+        <div class="price-alt-value">10x <small>com juros</small></div>
+        <p class="price-alt-note">Parcelamento em até 10 vezes no cartão de crédito com juros da operadora. <em>Consulte as condições do seu cartão.</em></p>
+      </div>
+      <div class="price-alt-cell">
+        <div class="price-alt-label">O que está incluído</div>
+        <div class="price-alt-value" style="font-size:1.6rem; color: var(--silver-light);">8 módulos</div>
+        <p class="price-alt-note">Saudações ao viajante confiante · Aeroporto, hotel, restaurante, compras e emergências · Frases reais · Acesso imediato · Acesso permanente · Sem turmas.</p>
+      </div>
+    </div>
+
+    <div class="banking-row reveal reveal-delay-3">
+      <div class="banking-cell">
+        <div class="banking-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <div class="banking-text">
+          <strong>Cartão de Crédito</strong>
+          À vista ou parcelado em até 10x
+        </div>
+      </div>
+      <div class="banking-cell">
+        <div class="banking-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="banking-text">
+          <strong>PIX</strong>
+          Transferência instantânea · À vista
+        </div>
+      </div>
+      <div class="banking-cell">
+        <div class="banking-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="banking-text">
+          <strong>Transferência Bancária</strong>
+          Wire transfer · À vista
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo reveal">POSEIDON</div>
+  <div class="footer-center reveal reveal-delay-2">
+    <div class="footer-center-line"></div>
+    <div class="footer-md">MD Talk</div>
+  </div>
+  <div class="footer-meta reveal reveal-delay-3">
+    <div class="footer-author">Desenvolvido por Thaiana Martignoni Faria</div>
+    <div class="footer-taglines">
+      Travel English Program · Instituto MD Talk<br>
+      TMEP — Tailored Medical English Program
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  function setVh() {
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setVh();
+  window.addEventListener('resize', setVh, { passive: true });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(function(el) { el.classList.add('hidden'); });
+    function revealEl(el) {
+      el.classList.remove('hidden');
+      el.classList.add('visible');
+    }
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            revealEl(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
+      reveals.forEach(function(el) { observer.observe(el); });
+    } else {
+      reveals.forEach(revealEl);
+    }
+    setTimeout(function() {
+      document.querySelectorAll('.reveal.hidden').forEach(revealEl);
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>
