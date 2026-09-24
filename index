@@ -229,13 +229,13 @@ main.main,main.course-body{max-width:880px}
   <p class="sc-intro">O curso é organizado em módulos temáticos que acompanham a jornada completa de uma viagem internacional. Você pode seguir na ordem ou ir direto ao módulo que mais precisa neste momento.</p>
 
   <div class="mod-grid">
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem1/"><div class="mod-item"><div class="mod-n">01</div><div class="mod-info"><div class="mod-title">Primeiras Impressões</div><div class="mod-desc">Cumprimentos, apresentações, excuse me vs sorry, small talk, despedidas.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem2/"><div class="mod-item"><div class="mod-n">02</div><div class="mod-info"><div class="mod-title">Aeroporto, Voo e Imigração</div><div class="mod-desc">Check-in, segurança, embarque, voo, conexões, imigração, alfândega, bagagem.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem3/"><div class="mod-item"><div class="mod-n">03</div><div class="mod-info"><div class="mod-title">Hospedagem</div><div class="mod-desc">Reservas, check-in, quarto, serviços, problemas, check-out, gorjetas, Airbnb.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem4/"><div class="mod-item"><div class="mod-n">04</div><div class="mod-info"><div class="mod-title">Locomoção Urbana</div><div class="mod-desc">Aluguel de carro, Uber, táxi, metrô, ônibus, direções, estacionamento, problemas.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem5/"><div class="mod-item"><div class="mod-n">05</div><div class="mod-info"><div class="mod-title">Restaurantes e Gastronomia</div><div class="mod-desc">Reservas, cardápio, pedidos, vinhos, bebidas, cafés, bares, conta, gorjetas.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem6/"><div class="mod-item"><div class="mod-n">06</div><div class="mod-info"><div class="mod-title">Compras no Exterior</div><div class="mod-desc">Lojas, roupas, provador, preços, pagamento, tax free, trocas, devoluções.</div></div></div></a>
-    <a class="mod-link" href="https://institutomdtalk.github.io/viajebem7/"><div class="mod-item"><div class="mod-n">07</div><div class="mod-info"><div class="mod-title">Farmácia e Emergências Médicas</div><div class="mod-desc">Sintomas, medicamentos, alergias, urgent care, pronto-socorro, 911, seguro.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/01-primeiras-impressoes/"><div class="mod-item"><div class="mod-n">01</div><div class="mod-info"><div class="mod-title">Primeiras Impressões</div><div class="mod-desc">Cumprimentos, apresentações, excuse me vs sorry, small talk, despedidas.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/02-aeroporto/"><div class="mod-item"><div class="mod-n">02</div><div class="mod-info"><div class="mod-title">Aeroporto, Voo e Imigração</div><div class="mod-desc">Check-in, segurança, embarque, voo, conexões, imigração, alfândega, bagagem.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/03-hospedagem/"><div class="mod-item"><div class="mod-n">03</div><div class="mod-info"><div class="mod-title">Hospedagem</div><div class="mod-desc">Reservas, check-in, quarto, serviços, problemas, check-out, gorjetas, Airbnb.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/04-locomocao/"><div class="mod-item"><div class="mod-n">04</div><div class="mod-info"><div class="mod-title">Locomoção Urbana</div><div class="mod-desc">Aluguel de carro, Uber, táxi, metrô, ônibus, direções, estacionamento, problemas.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/05-restaurantes/"><div class="mod-item"><div class="mod-n">05</div><div class="mod-info"><div class="mod-title">Restaurantes e Gastronomia</div><div class="mod-desc">Reservas, cardápio, pedidos, vinhos, bebidas, cafés, bares, conta, gorjetas.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/06-compras/"><div class="mod-item"><div class="mod-n">06</div><div class="mod-info"><div class="mod-title">Compras no Exterior</div><div class="mod-desc">Lojas, roupas, provador, preços, pagamento, tax free, trocas, devoluções.</div></div></div></a>
+    <a class="mod-link" href="https://institutomdtalk.github.io/07-farmacia/"><div class="mod-item"><div class="mod-n">07</div><div class="mod-info"><div class="mod-title">Farmácia e Emergências Médicas</div><div class="mod-desc">Sintomas, medicamentos, alergias, urgent care, pronto-socorro, 911, seguro.</div></div></div></a>
     <a class="mod-link" href="https://institutomdtalk.github.io/viajebembonusvinum/"><div class="mod-item"><div class="mod-n">B1</div><div class="mod-info"><div class="mod-title">Módulo Bônus — Wine English</div><div class="mod-desc">Vocabulário, verbos e phrasal verbs, collocations, regiões, jargões, tasting notes e situações reais.</div></div></div></a>
 <a class="mod-link" href="https://institutomdtalk.github.io/viajebembonus/"><div class="mod-item"><div class="mod-n">B2</div><div class="mod-info"><div class="mod-title">Módulo Bônus — The Confident Traveler</div><div class="mod-desc">Números, datas, ligações, emergências gerais, falsos cognatos, inteligência cultural, mindset.</div></div></div></a>
   </div>
@@ -437,7 +437,7 @@ main.main,main.course-body{max-width:880px}
   </div>
 
   <div class="banner"><div class="tc"><h3>Você está <em>pronto(a)</em>.</h3>
-<p>Agora vá para o <a href="https://institutomdtalk.github.io/viajebem1/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Módulo 01 — Primeiras Impressões</a> — e comece sua jornada.</p></div></div>
+<p>Agora vá para o <a href="https://institutomdtalk.github.io/01-primeiras-impressoes/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Módulo 01 — Primeiras Impressões</a> — e comece sua jornada.</p></div></div>
 
   <div class="bk welcome" style="margin-top:3rem">
     <h4>Mensagem de Boas-Vindas</h4>
@@ -449,7 +449,7 @@ main.main,main.course-body{max-width:880px}
 <nav class="vb-pager" aria-label="Navegação entre módulos">
   <span class="vb-card vb-prev vb-empty"></span>
   <span></span>
-  <a class="vb-card vb-next" href="https://institutomdtalk.github.io/viajebem1/"><span class="vb-dir">Próximo →</span><span class="vb-num">Módulo 01</span><span class="vb-t">Primeiras Impressões</span></a>
+  <a class="vb-card vb-next" href="https://institutomdtalk.github.io/01-primeiras-impressoes/"><span class="vb-dir">Próximo →</span><span class="vb-num">Módulo 01</span><span class="vb-t">Primeiras Impressões</span></a>
 </nav>
 <footer class="footer">
   <div class="footer-b">Welcome — English for Travelers</div>
