@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome — English for Travelers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F4F1;
+  --bg-warm:#EAEBE6;
+  --bg-card:#FFFFFF;
+  --ink:#151816;
+  --ink-s:#2E3230;
+  --ink-m:#82877F;
+  --emerald:#1A4034;
+  --emerald-d:#0F2A22;
+  --emerald-l:#28604E;
+  --emerald-bg:#ECF2EF;
+  --silver:#9A9E9B;
+  --silver-l:#B5B8B5;
+  --silver-d:#6E726F;
+  --silver-bg:#F0F1EF;
+  --sage:#7A8E7E;
+  --sage-bg:#EFF3F0;
+  --ivory:#F6F5F0;
+  --warm:#A09A8E;
+  --warm-bg:#F4F2EE;
+  --clay:#8A7468;
+  --clay-bg:#F4F0EC;
+  --brd:#D8DAD5;
+  --brd-l:#E4E6E1;
+  --fd:'Instrument Serif',Georgia,serif;
+  --fb:'Plus Jakarta Sans',sans-serif;
+  --fm:'JetBrains Mono',monospace;
+  --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.78;font-size:16.5px;-webkit-font-smoothing:antialiased}
+
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(155deg,#0A1F18 0%,#0F2A22 28%,#1A4034 52%,#0F2A22 78%,#0A1F18 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 42% at 35% 48%,rgba(154,158,155,.05) 0%,transparent 55%),radial-gradient(ellipse 40% 35% at 65% 45%,rgba(181,184,181,.03) 0%,transparent 50%);z-index:1}
+.hero::after{content:'';position:absolute;inset:0;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg width='70' height='70' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='35' cy='35' r='.6' fill='%23B5B8B5' fill-opacity='.07'/%3E%3C/svg%3E");z-index:1}
+.hero-c{position:relative;z-index:2;text-align:center;padding:2rem;max-width:800px;animation:hIn 1.4s ease-out}
+@keyframes hIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-block;font-family:var(--fb);font-size:.62rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--silver-l);border:1px solid rgba(181,184,181,.16);padding:.42rem 1.3rem;border-radius:100px;margin-bottom:2rem;background:rgba(181,184,181,.04)}
+.hero h1{font-family:var(--fd);font-size:clamp(2.6rem,6vw,5rem);font-weight:400;color:#F3F4F1;line-height:1.08}
+.hero h1 em{font-style:italic;color:var(--silver-l)}
+.hero-line{width:50px;height:1px;background:var(--silver);margin:2rem auto;opacity:.18}
+.hero-sub{font-family:var(--fd);font-size:1.15rem;color:rgba(243,244,241,.28);font-style:italic;line-height:1.7;max-width:520px;margin:0 auto}
+.hero-scroll{margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(243,244,241,.1);font-family:var(--fb);font-size:.56rem;letter-spacing:.25em;text-transform:uppercase;animation:pls 2.5s ease-in-out infinite}
+.hero-scroll svg{width:15px;height:15px;stroke:rgba(243,244,241,.1)}
+@keyframes pls{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.8;transform:translateY(5px)}}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(243,244,241,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--brd-l)}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 2rem;overflow-x:auto;scrollbar-width:none}.nav-in::-webkit-scrollbar{display:none}
+.nav-ul{display:flex;list-style:none;white-space:nowrap}
+.nav-ul a{display:block;padding:.85rem .95rem;font-family:var(--fb);font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-m);text-decoration:none;border-bottom:2px solid transparent;transition:all .3s ease}
+.nav-ul a:hover{color:var(--emerald);border-bottom-color:var(--emerald)}
+
+.main{max-width:870px;margin:0 auto;padding:0 2rem 6rem}
+.sc{padding-top:4.5rem}
+.sc-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fb);font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.7rem;color:var(--emerald-l)}
+.sc-tag .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:.54rem;font-weight:700;letter-spacing:0;color:var(--ivory);background:var(--emerald)}
+.sc h2{font-family:var(--fd);font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:400;color:var(--ink);line-height:1.22;margin-bottom:.3rem}
+.sc-sub{font-family:var(--fd);font-size:1.02rem;color:var(--ink-m);font-style:italic;margin-bottom:2rem;line-height:1.6}
+.sc-intro{font-size:.95rem;color:var(--ink-s);line-height:1.85;margin-bottom:2rem;max-width:740px}
+
+.gr{margin-bottom:2.3rem}
+.gr-t{font-family:var(--fb);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-s);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--brd)}
+.cd{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:1.1rem 1.35rem;margin-bottom:.46rem;transition:all .25s ease}
+.cd:hover{border-color:var(--brd);box-shadow:0 4px 16px rgba(21,24,22,.05);transform:translateY(-1px)}
+.cd .en{font-family:var(--fd);font-size:1.1rem;color:var(--ink);line-height:1.48;margin-bottom:.1rem}
+.cd .pt{font-family:var(--fb);font-size:.82rem;color:var(--ink-m);line-height:1.5}
+
+.nt{margin-top:.45rem;font-family:var(--fb);font-size:.71rem;padding:.42rem .72rem;border-radius:6px;line-height:1.55;border-left:3px solid}
+.nt.emerald{color:var(--emerald-d);background:var(--emerald-bg);border-color:var(--emerald)}
+.nt.silver{color:var(--silver-d);background:var(--silver-bg);border-color:var(--silver)}
+.nt.sage{color:#4A5E4E;background:var(--sage-bg);border-color:var(--sage)}
+.nt.warm{color:var(--clay);background:var(--warm-bg);border-color:var(--warm)}
+
+.bk{border-radius:12px;padding:1.5rem 1.6rem;margin:1.8rem 0;border:1px solid}
+.bk h4{font-family:var(--fb);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+.bk p,.bk li{font-size:.9rem;color:var(--ink-s);line-height:1.75}
+.bk ul{list-style:none;padding:0}
+.bk li{padding-left:1.2rem;position:relative;margin-bottom:.4rem}
+.bk li::before{content:'';position:absolute;left:0;top:.6rem;width:5px;height:5px;border-radius:50%;background:var(--emerald);opacity:.35}
+
+.bk.tip{background:linear-gradient(135deg,var(--emerald-bg),var(--bg));border-color:rgba(26,64,52,.1)}.bk.tip h4{color:var(--emerald)}
+.bk.method{background:linear-gradient(135deg,var(--silver-bg),var(--bg));border-color:rgba(154,158,155,.14)}.bk.method h4{color:var(--silver-d)}
+.bk.warn{background:linear-gradient(135deg,var(--warm-bg),var(--bg));border-color:rgba(160,154,142,.15)}.bk.warn h4{color:var(--clay)}
+.bk.note{background:linear-gradient(135deg,var(--sage-bg),var(--bg));border-color:rgba(122,142,126,.12)}.bk.note h4{color:var(--sage)}
+.bk.welcome{background:linear-gradient(135deg,var(--emerald-bg),var(--sage-bg));border-color:rgba(26,64,52,.1)}.bk.welcome h4{color:var(--emerald)}
+
+/* ══ STEP CARDS ══ */
+.step-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.6rem;margin:1.5rem 0 2rem}
+.step-card{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:1.2rem 1.3rem;transition:all .25s ease;position:relative;overflow:hidden}
+.step-card:hover{border-color:var(--brd);box-shadow:0 4px 16px rgba(21,24,22,.05)}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--emerald);opacity:.25}
+.step-num{font-family:var(--fd);font-size:1.8rem;color:var(--emerald);opacity:.18;font-weight:400;line-height:1;margin-bottom:.4rem}
+.step-title{font-family:var(--fb);font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;letter-spacing:.01em}
+.step-text{font-family:var(--fb);font-size:.78rem;color:var(--ink-m);line-height:1.55}
+
+/* ══ MODULE MAP ══ */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.5rem;margin:1.5rem 0 2rem}
+.mod-item{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:1rem 1.2rem;transition:all .25s ease;display:flex;align-items:flex-start;gap:.8rem}
+.mod-item:hover{border-color:var(--brd);box-shadow:0 3px 12px rgba(21,24,22,.04)}
+.mod-n{font-family:var(--fd);font-size:1.4rem;color:var(--emerald);opacity:.22;flex-shrink:0;line-height:1;margin-top:.1rem}
+.mod-info .mod-title{font-family:var(--fb);font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
+.mod-info .mod-desc{font-family:var(--fb);font-size:.72rem;color:var(--ink-m);line-height:1.45}
+
+/* ══ BANNER ══ */
+.banner{background:linear-gradient(135deg,var(--emerald-d) 0%,var(--emerald) 50%,var(--emerald-d) 100%);padding:2.6rem 2rem;text-align:center;margin-top:3.5rem}
+.banner h3{font-family:var(--fd);font-size:1.55rem;color:rgba(243,244,241,.7);margin-bottom:.3rem}
+.banner h3 em{font-style:italic;color:var(--silver-l)}
+.banner p{font-family:var(--fb);font-size:.8rem;color:rgba(243,244,241,.25);max-width:440px;margin:0 auto;line-height:1.55}
+
+.sep{display:flex;align-items:center;justify-content:center;gap:1rem;padding:2.8rem 0 0}
+.sep::before,.sep::after{content:'';flex:1;max-width:100px;height:1px;background:var(--brd)}
+.sep .d{width:5px;height:5px;background:var(--emerald);transform:rotate(45deg);opacity:.15}
+.footer{text-align:center;padding:3.5rem 2rem;border-top:1px solid var(--brd-l);margin-top:3rem}
+.footer-b{font-family:var(--fd);font-size:1.25rem;color:var(--ink);margin-bottom:.3rem}
+.footer-t{font-family:var(--fb);font-size:.73rem;color:var(--ink-m)}
+
+@media(max-width:768px){.main{padding:0 1.2rem 4rem}.sc{padding-top:3.5rem}.step-grid,.mod-grid{grid-template-columns:1fr}.nav-ul a{padding:.78rem .68rem;font-size:.56rem}}
+.fi{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}.fi.v{opacity:1;transform:translateY(0)}
+
+/* hero: same sizes, spacing and contrast as the reference module */
+.hero-badge{font-size:.67rem;letter-spacing:.28em;padding:.45rem 1.4rem;margin-bottom:2rem;border-color:rgba(181,184,181,.25);background:rgba(181,184,181,.06)}
+.hero h1{font-size:clamp(2.5rem,5.5vw,4.6rem);line-height:1.12}
+/* hero title and subtitle in the reference typeface (Instrument Serif is condensed and reads as small caps at this size) */
+.hero h1,.hero h1 em,.hero-sub{font-family:'Bodoni Moda',Georgia,serif}
+.hero h1{letter-spacing:-.01em}
+.hero h1 em{font-weight:400}
+.hero-line{width:50px;margin:2rem auto;opacity:.3}
+.hero-sub{font-size:1.15rem;max-width:540px;color:rgba(243,244,241,.45)}
+.hero-scroll{margin-top:3.5rem;gap:.4rem;font-size:.62rem;letter-spacing:.2em;color:rgba(243,244,241,.25)}
+.hero-scroll svg{width:16px;height:16px;stroke:rgba(243,244,241,.25)}
+
+/* ═══ STANDARD FOOTER — identical on every Viaje Bem module ═══ */
+footer.footer{text-align:center;padding:3.5rem 2rem;border-top:1px solid #ECEEF4;margin-top:3rem;line-height:1.75}
+footer.footer .footer-b{font-family:'Bodoni Moda',Georgia,serif;font-size:1.25rem;font-weight:400;color:#141B2D;margin-bottom:.35rem}
+footer.footer .footer-t{font-family:'Nunito Sans',sans-serif;font-size:.76rem;color:#7A8299;line-height:1.75}
+footer.footer .sig{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin-top:2.2rem;padding-top:2rem;border-top:1px solid #ECEEF4}
+footer.footer .sig-n{font-family:'Bodoni Moda',Georgia,serif;font-size:1.05rem;font-weight:400;color:#141B2D}
+footer.footer .sig-r{font-family:'Nunito Sans',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C;margin-top:.15rem}
+
+/* ═══ VIAJE BEM — course-wide standard (same on every module) ═══ */
+main.main,main.course-body{max-width:880px}
+.vb-pager{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch;margin:3.5rem 0 0;font-family:'Nunito Sans',sans-serif}
+.vb-pager a{text-decoration:none;color:#141B2D}
+.vb-card{display:flex;flex-direction:column;gap:.35rem;padding:1.1rem 1.3rem;border:1px solid #E3E5EC;border-radius:10px;background:#FFFFFF;transition:border-color .2s ease,transform .2s ease}
+.vb-card:hover{border-color:#C9A84C;transform:translateY(-2px)}
+.vb-next{text-align:right}
+.vb-dir{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#7A8299}
+.vb-num{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C}
+.vb-t{font-family:'Bodoni Moda',Georgia,serif;font-size:1.08rem;line-height:1.3;color:#141B2D}
+.vb-home{align-self:center;display:inline-flex;align-items:center;padding:.55rem 1.1rem;border:1px solid #E3E5EC;border-radius:100px;background:#FFFFFF;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#7A8299!important;white-space:nowrap}
+.vb-home:hover{border-color:#C9A84C;color:#141B2D!important}
+.vb-empty{visibility:hidden}
+.vb-dl{display:flex;flex-direction:column;align-items:center;gap:.55rem;margin:3.5rem 0 0;font-family:'Nunito Sans',sans-serif}
+.vb-dl-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.6rem;border-radius:100px;background:#141B2D;color:#FFFFFF!important;text-decoration:none;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:1px solid #141B2D;transition:background .2s ease,border-color .2s ease}
+.vb-dl-btn:hover{background:#1F2A45;border-color:#C9A84C}
+.vb-dl-btn svg{width:16px;height:16px;fill:none;stroke:#C9A84C;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vb-dl-meta{font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#7A8299}
+.vb-dl + .vb-pager{margin-top:2.2rem}
+@media(max-width:768px){.vb-pager{grid-template-columns:1fr}.vb-next{text-align:left}.vb-home{justify-self:center;order:3}.vb-empty{display:none}}
+:root{--fd:'Bodoni Moda',Georgia,serif}
+.mod-grid>a.mod-link{display:block;text-decoration:none;color:inherit}
+.mod-grid>a.mod-link>.mod-item{height:100%}
+.mod-grid>a.mod-link:hover .mod-item{border-color:#C9A84C}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-c">
+    <div class="hero-badge">English for Travelers — Módulo de Boas-Vindas</div>
+    <h1>Welcome to<br><em>Travel English</em></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">Seu guia completo de inglês para viagens internacionais.<br>Como usar este material, como estudar e como absorver tudo.</p>
+    <div class="hero-scroll">Comece aqui<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg></div>
+  </div>
+</section>
+<nav class="nav"><div class="nav-in"><ul class="nav-ul">
+  <li><a href="#s1">Sobre o Curso</a></li>
+  <li><a href="#s2">Mapa dos Módulos</a></li>
+  <li><a href="#s3">Como Estudar</a></li>
+  <li><a href="#s4">Técnicas de Assimilação</a></li>
+  <li><a href="#s5">Usando o Material</a></li>
+  <li><a href="#s6">Antes da Viagem</a></li>
+  <li><a href="#s7">Durante a Viagem</a></li>
+  <li><a href="#s8">Mentalidade</a></li>
+</ul></div></nav>
+<main class="main"><!-- ███ 1 ███ -->
+<section class="sc" id="s1">
+  <div class="sc-tag"><span class="n">1</span> About This Course</div>
+  <h2>Sobre Este Curso</h2>
+  <p class="sc-sub">O que é, para quem é, e o que torna este material diferente de tudo que você já viu.</p>
+
+  <p class="sc-intro">Este curso foi criado para pessoas que querem se comunicar com confiança em viagens internacionais. Não é um curso de gramática. Não é um curso para "aprender inglês do zero". É um material de <strong>preparação prática e cultural</strong> — desenhado para que você saiba exatamente o que dizer, como dizer e quando dizer em cada situação real que vai encontrar no exterior.</p>
+
+  <p class="sc-intro">Cada módulo cobre uma área específica da viagem: do aeroporto ao hotel, do restaurante à farmácia, das compras à locomoção urbana. Todas as frases são contextualizadas, traduzidas e acompanhadas de notas culturais que explicam não apenas <strong>o que</strong> falar, mas <strong>por que</strong> falar assim.</p>
+
+  <div class="bk welcome">
+    <h4>Para Quem é Este Curso</h4>
+    <ul>
+      <li>Você tem algum conhecimento de inglês (mesmo que básico) e quer se sentir preparado(a) para viajar</li>
+      <li>Você já viaja, mas trava na hora de falar — e quer eliminar essa insegurança</li>
+      <li>Você tem nível intermediário ou avançado, mas percebe que fala "inglês de livro" e quer soar natural</li>
+      <li>Você quer entender o que nativos realmente dizem (e não apenas o que os livros ensinam)</li>
+      <li>Você é profissional e quer causar boa impressão em contextos internacionais</li>
+    </ul>
+  </div>
+
+  <div class="bk note">
+    <h4>O Que Este Curso Não É</h4>
+    <p>Este curso <strong>não ensina gramática</strong> de forma tradicional. Não há exercícios de conjugação, tabelas de verbos irregulares ou regras abstratas. Todo o aprendizado acontece através de <strong>frases reais em contextos reais</strong>. A gramática está embutida nas frases — você absorve a estrutura pelo uso, não pela teoria. Essa é uma escolha intencional: é assim que nativos aprendem.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 2 ███ -->
+<section class="sc" id="s2">
+  <div class="sc-tag"><span class="n">2</span> Course Map</div>
+  <h2>Mapa dos Módulos</h2>
+  <p class="sc-sub">A estrutura completa do curso — do cumprimento à despedida.</p>
+
+  <p class="sc-intro">O curso é organizado em módulos temáticos que acompanham a jornada completa de uma viagem internacional. Você pode seguir na ordem ou ir direto ao módulo que mais precisa neste momento.</p>
+
+  <div class="mod-grid">
+    <a class="mod-link" href="01-primeiras-impressoes/"><div class="mod-item"><div class="mod-n">01</div><div class="mod-info"><div class="mod-title">Primeiras Impressões</div><div class="mod-desc">Cumprimentos, apresentações, excuse me vs sorry, small talk, despedidas.</div></div></div></a>
+    <a class="mod-link" href="02-aeroporto/"><div class="mod-item"><div class="mod-n">02</div><div class="mod-info"><div class="mod-title">Aeroporto, Voo e Imigração</div><div class="mod-desc">Check-in, segurança, embarque, voo, conexões, imigração, alfândega, bagagem.</div></div></div></a>
+    <a class="mod-link" href="03-hospedagem/"><div class="mod-item"><div class="mod-n">03</div><div class="mod-info"><div class="mod-title">Hospedagem</div><div class="mod-desc">Reservas, check-in, quarto, serviços, problemas, check-out, gorjetas, Airbnb.</div></div></div></a>
+    <a class="mod-link" href="04-locomocao/"><div class="mod-item"><div class="mod-n">04</div><div class="mod-info"><div class="mod-title">Locomoção Urbana</div><div class="mod-desc">Aluguel de carro, Uber, táxi, metrô, ônibus, direções, estacionamento, problemas.</div></div></div></a>
+    <a class="mod-link" href="05-restaurantes/"><div class="mod-item"><div class="mod-n">05</div><div class="mod-info"><div class="mod-title">Restaurantes e Gastronomia</div><div class="mod-desc">Reservas, cardápio, pedidos, vinhos, bebidas, cafés, bares, conta, gorjetas.</div></div></div></a>
+    <a class="mod-link" href="06-compras/"><div class="mod-item"><div class="mod-n">06</div><div class="mod-info"><div class="mod-title">Compras no Exterior</div><div class="mod-desc">Lojas, roupas, provador, preços, pagamento, tax free, trocas, devoluções.</div></div></div></a>
+    <a class="mod-link" href="07-farmacia/"><div class="mod-item"><div class="mod-n">07</div><div class="mod-info"><div class="mod-title">Farmácia e Emergências Médicas</div><div class="mod-desc">Sintomas, medicamentos, alergias, urgent care, pronto-socorro, 911, seguro.</div></div></div></a>
+    <a class="mod-link" href="bonus-vinhos/"><div class="mod-item"><div class="mod-n">B1</div><div class="mod-info"><div class="mod-title">Módulo Bônus — Wine English</div><div class="mod-desc">Vocabulário, verbos e phrasal verbs, collocations, regiões, jargões, tasting notes e situações reais.</div></div></div></a>
+<a class="mod-link" href="bonus-final/"><div class="mod-item"><div class="mod-n">B2</div><div class="mod-info"><div class="mod-title">Módulo Bônus — The Confident Traveler</div><div class="mod-desc">Números, datas, ligações, emergências gerais, falsos cognatos, inteligência cultural, mindset.</div></div></div></a>
+  </div>
+
+  <div class="bk tip">
+    <h4>Como Navegar</h4>
+    <p>Cada módulo é independente e completo. Se sua viagem é daqui a uma semana, vá direto aos módulos que mais precisa (Aeroporto, Hotel, Restaurante). Se tem mais tempo, siga a ordem — ela foi pensada para construir confiança progressivamente, do básico (cumprimentos) ao complexo (emergências médicas).</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 3 ███ -->
+<section class="sc" id="s3">
+  <div class="sc-tag"><span class="n">3</span> How to Study</div>
+  <h2>Como Estudar Este Material</h2>
+  <p class="sc-sub">Um método concreto para extrair o máximo de cada módulo — sem enrolação.</p>
+
+  <p class="sc-intro">Este material foi feito para ser usado, não apenas lido. A diferença entre quem "estuda" inglês e quem realmente aprende está no <strong>método de estudo</strong>. Aqui está o sistema recomendado — testado e comprovado.</p>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">Leitura Panorâmica</div>
+      <div class="step-text">Leia o módulo inteiro uma vez, sem parar para decorar. Apenas absorva o contexto, as situações e o fluxo. Marque mentalmente o que parece mais útil para você.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">Leitura Focada</div>
+      <div class="step-text">Releia o módulo, agora prestando atenção às frases. Leia o inglês em voz alta. Não se preocupe com perfeição — o objetivo é que sua boca se acostume a formar os sons.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">Seleção Pessoal</div>
+      <div class="step-text">Escolha 10 a 15 frases de cada módulo que são mais relevantes para a sua viagem. Essas são suas "frases de sobrevivência". Anote-as separadamente ou marque-as no material.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-title">Prática em Voz Alta</div>
+      <div class="step-text">Repita suas frases selecionadas em voz alta, pelo menos 3 vezes cada. Diga a frase em português, depois tente dizer em inglês sem olhar. Depois confira. Repita até fluir.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <div class="step-title">Simulação Mental</div>
+      <div class="step-text">Feche os olhos e imagine-se na situação: no balcão do hotel, no restaurante, na imigração. Visualize o cenário e pratique o diálogo mentalmente. Isso cria memória de contexto.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">06</div>
+      <div class="step-title">Revisão Espaçada</div>
+      <div class="step-text">Revise suas frases selecionadas nos dias 1, 3, 7 e 14 após o primeiro estudo. A repetição espaçada é o que fixa na memória de longo prazo — não a repetição exaustiva de um único dia.</div>
+    </div>
+  </div>
+
+  <div class="bk method">
+    <h4>O Ritmo Ideal de Estudo</h4>
+    <p>Estudar <strong>20 a 30 minutos por dia</strong> é mais eficaz do que 3 horas em um único dia. O cérebro consolida informação durante o sono — estudar um pouco todos os dias dá ao cérebro tempo de processar. Se sua viagem é daqui a 30 dias, dedique um módulo a cada 3–4 dias. Se é daqui a uma semana, priorize os módulos mais urgentes e foque nas frases de sobrevivência.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 4 ███ -->
+<section class="sc" id="s4">
+  <div class="sc-tag"><span class="n">4</span> Assimilation Techniques</div>
+  <h2>Técnicas de Assimilação</h2>
+  <p class="sc-sub">Como fazer as frases saírem automaticamente — sem pensar, sem traduzir, sem travar.</p>
+
+  <p class="sc-intro">O maior desafio de quem aprende inglês não é entender — é <strong>produzir na hora</strong>. Você entende a frase quando lê, mas na hora de falar, trava. Isso acontece porque a frase está na sua <strong>memória de reconhecimento</strong>, mas não na sua <strong>memória de produção</strong>. Essas técnicas resolvem exatamente isso.</p>
+
+  <div class="gr"><div class="gr-t">Técnica 1 — Shadowing (Espelhamento)</div>
+    <div class="cd"><div class="en">Ouça a frase em inglês (use Google Translate como gerador de áudio) e repita imediatamente, tentando copiar o ritmo, a entonação e a velocidade.</div><div class="pt">O objetivo não é entender — é imitar. Seu corpo aprende a mecânica dos sons antes de seu cérebro processar o significado. É assim que crianças aprendem.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">Técnica 2 — Chunking (Blocos de Significado)</div>
+    <div class="cd"><div class="en">Não decore palavras isoladas. Decore blocos: "I'd like to..." / "Could you..." / "Is there a..." / "How much is..."</div><div class="pt">O cérebro armazena blocos de forma muito mais eficiente do que palavras soltas. Quando você memoriza <strong>"I'd like to..."</strong>, pode completar com qualquer coisa: "...make a reservation", "...order the salmon", "...check out".</div><div class="nt emerald">Esses blocos são chamados de <strong>chunks</strong>. Nativos não constroem frases palavra por palavra — eles juntam chunks. Ao dominar 20 a 30 chunks, você cobre 80% das situações de viagem.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">Técnica 3 — O Método do Espelho</div>
+    <div class="cd"><div class="en">Fique em frente a um espelho e simule a interação completa: cumprimente, peça algo, agradeça, resolva um problema.</div><div class="pt">Parecer estranho? Pode ser. Mas funciona. O espelho ativa a mesma área do cérebro usada em interações sociais. Você se acostuma a ver seu rosto falando inglês — e isso reduz a ansiedade na hora real.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">Técnica 4 — Ancoragem por Contexto</div>
+    <div class="cd"><div class="en">Associe frases a momentos específicos do seu dia. Toda vez que entrar no carro, diga: "Excuse me, could you take me to..." Ao entrar em um café, pense: "I'll have a..."</div><div class="pt">A ancoragem conecta o inglês ao seu cotidiano. Quando a situação real acontecer na viagem, o cérebro já terá o caminho neural pronto.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">Técnica 5 — O Caderno de Bolso</div>
+    <div class="cd"><div class="en">Tenha um caderno pequeno (ou uma nota no celular) com suas 30 frases mais importantes. Revise nos momentos mortos: fila do banco, sala de espera, antes de dormir.</div><div class="pt">A repetição casual e frequente é mais poderosa do que sessões longas e esporádicas. Transforme tempo morto em tempo de aprendizado.</div></div>
+  </div>
+
+  <div class="bk tip">
+    <h4>Os 15 Chunks Mais Importantes do Curso</h4>
+    <ul>
+      <li><strong>"I'd like to..."</strong> — Eu gostaria de...</li>
+      <li><strong>"Could you..."</strong> — Você poderia...</li>
+      <li><strong>"Do you have..."</strong> — Vocês têm...</li>
+      <li><strong>"Is there a..."</strong> — Tem um(a)...</li>
+      <li><strong>"How much is..."</strong> — Quanto custa...</li>
+      <li><strong>"I'm looking for..."</strong> — Estou procurando...</li>
+      <li><strong>"Could I get..."</strong> — Posso pedir...</li>
+      <li><strong>"I have a reservation under..."</strong> — Tenho reserva no nome...</li>
+      <li><strong>"What time does... close / open?"</strong> — Que horas fecha / abre?</li>
+      <li><strong>"I need help with..."</strong> — Preciso de ajuda com...</li>
+      <li><strong>"Can you recommend..."</strong> — Pode recomendar...</li>
+      <li><strong>"How long does it take?"</strong> — Quanto tempo leva?</li>
+      <li><strong>"I'll have the..."</strong> — Vou querer o/a...</li>
+      <li><strong>"Could you say that again?"</strong> — Poderia repetir?</li>
+      <li><strong>"I appreciate it."</strong> — Eu agradeço.</li>
+    </ul>
+    <p style="margin-top:.8rem">Domine esses 15 blocos e você já se comunica em 80% das situações de viagem. O restante é vocabulário específico — que cada módulo fornece.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 5 ███ -->
+<section class="sc" id="s5">
+  <div class="sc-tag"><span class="n">5</span> Using the Material</div>
+  <h2>Entendendo a Estrutura do Material</h2>
+  <p class="sc-sub">O que cada elemento da página significa e como extrair o máximo.</p>
+
+  <p class="sc-intro">Cada módulo segue uma estrutura consistente para facilitar a navegação e o estudo. Veja como interpretar cada elemento.</p>
+
+  <div class="gr"><div class="gr-t">Elementos que você vai encontrar</div>
+    <div class="cd"><div class="en">Frases em inglês com tradução</div><div class="pt">O coração do curso. Cada frase aparece no contexto em que seria usada na vida real. A tradução é funcional — não literal. Reflete como um brasileiro diria a mesma coisa em português.</div></div>
+    <div class="cd"><div class="en">Notas explicativas (caixas coloridas sob as frases)</div><div class="pt">Trazem informação cultural, dica de pronúncia, alerta sobre erros comuns ou contexto adicional. Não pule essas notas — muitas vezes a informação mais valiosa está nelas.</div></div>
+    <div class="cd"><div class="en">Diálogos Práticos</div><div class="pt">Simulações completas de conversas reais. Mostram o fluxo natural de uma interação do início ao fim. Use para praticar em voz alta, assumindo o papel de "You".</div></div>
+    <div class="cd"><div class="en">Grades de Vocabulário</div><div class="pt">Vocabulário organizado em grade visual para referência rápida. Não precisa decorar tudo — use como consulta quando surgir a necessidade.</div></div>
+    <div class="cd"><div class="en">Blocos Especiais (Dica de Ouro, Nota Cultural, Atenção)</div><div class="pt">Informações que vão além da língua: comportamento, etiqueta, erros culturais e estratégias. Leia com cuidado — essas informações evitam constrangimentos reais.</div></div>
+  </div>
+
+  <div class="bk method">
+    <h4>O Que Priorizar se Tem Pouco Tempo</h4>
+    <p>Se você tem <strong>apenas uma semana</strong> antes da viagem: (1) Leia as frases e os diálogos dos módulos mais relevantes para seu roteiro; (2) Selecione 5 frases por módulo que são indispensáveis; (3) Pratique-as em voz alta todas as noites; (4) Leia todos os blocos de "Nota Cultural" — evitam gafes que nenhuma frase conserta. Não tente absorver tudo. <strong>Foque em profundidade, não em amplitude.</strong></p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 6 ███ -->
+<section class="sc" id="s6">
+  <div class="sc-tag"><span class="n">6</span> Before You Travel</div>
+  <h2>Checklist Antes da Viagem</h2>
+  <p class="sc-sub">O que fazer nos dias que antecedem a viagem para chegar preparado(a).</p>
+
+  <div class="gr"><div class="gr-t">30 dias antes</div>
+    <div class="cd"><div class="en">Comece o curso. Um módulo a cada 3–4 dias.</div><div class="pt">Siga a ordem sugerida: Primeiras Impressões, Aeroporto, Hotel, Transporte, Restaurantes, Compras, Farmácia, Bônus.</div></div>
+    <div class="cd"><div class="en">Identifique os módulos mais relevantes para o seu roteiro.</div><div class="pt">Vai alugar carro? Priorize o módulo de Locomoção. Vai a restaurantes finos? Foque no módulo de Gastronomia. Viagem com crianças? Dê atenção extra às seções de farmácia e emergências.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">7 dias antes</div>
+    <div class="cd"><div class="en">Revise suas frases selecionadas (caderno de bolso).</div><div class="pt">Neste ponto, você já deve ter 30–50 frases selecionadas. Revise-as diariamente.</div></div>
+    <div class="cd"><div class="en">Pratique os diálogos de imigração em voz alta.</div><div class="pt">A imigração é o primeiro teste real. As perguntas são previsíveis — ensaie até que as respostas saiam automaticamente.</div></div>
+    <div class="cd"><div class="en">Salve informações essenciais no celular (offline).</div><div class="pt">Endereço do hotel, número do seguro viagem, contato do consulado, cópia digital do passaporte.</div></div>
+  </div>
+
+  <div class="gr"><div class="gr-t">Na véspera</div>
+    <div class="cd"><div class="en">Releia o módulo de Aeroporto e Imigração.</div><div class="pt">É o módulo que você vai usar primeiro. Uma última leitura fixa as frases mais frescas na memória.</div></div>
+    <div class="cd"><div class="en">Faça o check-in online e salve o boarding pass.</div><div class="pt">Menos uma interação em inglês no aeroporto — mais confiança para as que realmente importam.</div></div>
+    <div class="cd"><div class="en">Baixe mapas offline e apps essenciais.</div><div class="pt">Google Maps (offline), Google Translate (idiomas baixados), Uber, app da companhia aérea.</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 7 ███ -->
+<section class="sc" id="s7">
+  <div class="sc-tag"><span class="n">7</span> During the Trip</div>
+  <h2>Durante a Viagem — Como Usar o Material em Tempo Real</h2>
+  <p class="sc-sub">Este curso não foi feito para ficar na gaveta. Use-o como ferramenta de consulta no momento que precisar.</p>
+
+  <p class="sc-intro">Quando estiver no exterior, este material funciona como um <strong>guia de referência rápida</strong>. Antes de entrar em uma situação nova — restaurante, farmácia, balcão de locadora — abra o módulo correspondente no celular e revise as frases principais. Leva 2 minutos e muda completamente sua confiança.</p>
+
+  <div class="gr"><div class="gr-t">Exemplos de uso em tempo real</div>
+    <div class="cd"><div class="en">Está indo jantar? Abra o módulo de Restaurantes no táxi e revise as frases de pedido e de vinhos.</div><div class="pt">Quando chegar ao restaurante, as frases estarão frescas na sua memória — e você vai pedir com naturalidade.</div></div>
+    <div class="cd"><div class="en">Vai à farmácia? Abra o módulo de Farmácia e procure os sintomas que precisa descrever.</div><div class="pt">Use o celular como "cola" na hora se necessário — ninguém vai achar estranho. Nativos fazem o mesmo com tradutores.</div></div>
+    <div class="cd"><div class="en">Problema no hotel? Abra a seção de Problemas e Reclamações antes de ligar para a recepção.</div><div class="pt">Ter a frase pronta antes de falar reduz a ansiedade em 90%. Você não está improvisando — está executando.</div></div>
+    <div class="cd"><div class="en">Indo para a imigração? Releia a seção de Imigração ainda no avião, antes do pouso.</div><div class="pt">Na fila da imigração, o uso do celular costuma ser proibido. Aproveite os minutos finais do voo para revisar as respostas às perguntas do oficial.</div></div>
+  </div>
+
+  <div class="bk tip">
+    <h4>Dica de Ouro — O Poder do "Warm-Up"</h4>
+    <p>Antes de qualquer interação em inglês, faça um <strong>aquecimento mental de 30 segundos</strong>: diga em voz baixa (ou mentalmente) 3 frases em inglês. Qualquer frase. "Good morning." "I'd like to..." "Thank you." Isso ativa o "modo inglês" no cérebro. A primeira frase é sempre a mais difícil — faça esse aquecimento e ela sai sem esforço.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 8 ███ -->
+<section class="sc" id="s8">
+  <div class="sc-tag"><span class="n">8</span> Mindset</div>
+  <h2>A Mentalidade Certa</h2>
+  <p class="sc-sub">Antes de qualquer frase em inglês, existe algo mais importante: como você se posiciona.</p>
+
+  <p class="sc-intro">Este é talvez o conteúdo mais importante de todo o curso. Nenhuma frase, nenhum vocabulário, nenhuma pronúncia perfeita substitui a <strong>postura certa</strong>. A forma como você se sente ao falar inglês afeta diretamente a forma como os outros te percebem — e a qualidade da sua viagem inteira.</p>
+
+  <div class="gr"><div class="gr-t">Verdades que você precisa aceitar antes de embarcar</div>
+    <div class="cd"><div class="en">"You will make mistakes. That's not failure — that's the process."</div><div class="pt">Você vai cometer erros. Isso não é fracasso — é o processo. Nativos não esperam perfeição de você. Esperam esforço. E esforço, eles respeitam.</div></div>
+    <div class="cd"><div class="en">"You don't need every word. You need the right attitude."</div><div class="pt">Você não precisa de todas as palavras. Precisa da atitude certa. Um sorriso + "Excuse me" + boa vontade resolve mais situações do que um vocabulário de 5.000 palavras dito com medo.</div></div>
+    <div class="cd"><div class="en">"Nobody is judging your English. They're just trying to help you."</div><div class="pt">Ninguém está julgando seu inglês. Eles estão apenas tentando te ajudar. O garçom, o recepcionista, o motorista — todos querem que a interação funcione tanto quanto você.</div></div>
+    <div class="cd"><div class="en">"The worst that can happen is a funny story."</div><div class="pt">O pior que pode acontecer é uma história engraçada. O pedido errado no restaurante, a pronúncia que saiu errada, o mal-entendido no Uber — tudo isso vira história para contar. Nada disso é tragédia.</div></div>
+    <div class="cd"><div class="en">"You already speak two languages. Most people you'll meet speak one."</div><div class="pt">Você já fala duas línguas. A maioria das pessoas que vai encontrar fala uma. Orgulhe-se de estar fazendo o esforço. Você está do lado certo.</div></div>
+  </div>
+
+  <div class="bk warn">
+    <h4>Os 3 Erros Mentais Mais Comuns</h4>
+    <ul>
+      <li><strong>Traduzir mentalmente antes de falar.</strong> Isso cria um delay que trava a conversa. Pratique chunks (blocos) prontos — eles saem sem tradução porque foram memorizados inteiros.</li>
+      <li><strong>Pedir desculpas pelo seu inglês.</strong> Nunca diga "Sorry for my bad English." Troque por "Thank you for your patience." Muda a energia de culpa para gratidão.</li>
+      <li><strong>Esperar a frase perfeita antes de abrir a boca.</strong> A frase imperfeita dita com confiança comunica mais do que o silêncio perfeito. Fale. Erre. Corrija. Avance.</li>
+    </ul>
+  </div>
+
+  <div class="banner"><div class="tc"><h3>Você está <em>pronto(a)</em>.</h3>
+<p>Agora vá para o <a href="01-primeiras-impressoes/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Módulo 01 — Primeiras Impressões</a> — e comece sua jornada.</p></div></div>
+
+  <div class="bk welcome" style="margin-top:3rem">
+    <h4>Mensagem de Boas-Vindas</h4>
+    <p>Parabéns por estar aqui. O simples fato de ter escolhido se preparar já te coloca à frente da maioria dos viajantes. Este curso foi construído com cuidado, detalhe e respeito pelo seu tempo e pelo seu investimento. Cada frase foi pensada para ser útil. Cada nota cultural foi escrita para evitar um constrangimento real. Cada diálogo simula uma situação que você vai viver de verdade.<br><br>Confie no material. Confie no processo. E acima de tudo — confie em você.<br><br><strong>Boa viagem. Boa jornada. Bom inglês.</strong></p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<div class="vb-dl"><a class="vb-dl-btn" href="viaje-bem-boas-vindas.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Baixar o material em PDF</a><span class="vb-dl-meta">PDF · 10 páginas</span></div>
+<nav class="vb-pager" aria-label="Navegação entre módulos">
+  <span class="vb-card vb-prev vb-empty"></span>
+  <span></span>
+  <a class="vb-card vb-next" href="01-primeiras-impressoes/"><span class="vb-dir">Próximo →</span><span class="vb-num">Módulo 01</span><span class="vb-t">Primeiras Impressões</span></a>
+</nav>
+<footer class="footer">
+  <div class="footer-b">Welcome — English for Travelers</div>
+  <p class="footer-t">Conteúdo exclusivo para fins educacionais.<br>Desenvolvido com excelência para alunos que buscam comunicação internacional de alto nível.</p>
+  <div class="sig">
+    <div><div class="sig-n">Thaiana Faria</div><div class="sig-r">Especialista em Inglês Médico e Comunicação Científica · MD Talk</div></div>
+    <div><div class="sig-n">Thiago Faria</div><div class="sig-r">Produção de Conteúdo Técnico · The Engine Lab</div></div>
+  </div>
+</footer>
+</main>
+</body>
+</html>
