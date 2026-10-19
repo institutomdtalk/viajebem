@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-vb-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -7,26 +7,26 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viaje-bem-build" content="2026.10.19-backend-connected-1">
+<meta name="viaje-bem-build" content="2026.10.19-light-default-fix-1">
 
-<meta name="theme-color" content="#050b16">
+<meta name="theme-color" content="#f7f5f0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Viaje Bem">
 <meta name="format-detection" content="telephone=no,address=no,email=no">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 
 <title>Viaje Bem · English for Travelers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"></noscript>
 <style>
-:root{--bg:#050b16;--panel:#07111f;--ink:#eef8ff;--muted:#8094aa;--cyan:#74d7ff;--gold:#e5bf6b;--accent:#74d7ff;--chrome-h:64px}
+:root{--bg:#f7f5f0;--panel:#ffffff;--ink:#163650;--muted:#718494;--cyan:#4f97b7;--gold:#b68e49;--accent:#4f97b7;--chrome-h:64px}
 *{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);overflow:hidden}body{font-family:Manrope,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 button{font:inherit}button:focus-visible{outline:3px solid rgba(116,215,255,.42);outline-offset:3px}
-#vbStage{position:fixed;inset:0;background:#050b16}
-#vbFrame{display:block;width:100%;height:100%;border:0;background:#050b16}
+#vbStage{position:fixed;inset:0;background:#f7f5f0}
+#vbFrame{display:block;width:100%;height:100%;border:0;background:#f7f5f0}
 #vbCourseChrome{display:none!important}
 .vb-brand{display:flex;align-items:center;gap:10px;min-width:max-content}.vb-brand-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 16px rgba(229,191,107,.75);animation:vbPulse 1.55s ease-in-out infinite}@keyframes vbPulse{50%{transform:scale(1.28);box-shadow:0 0 24px rgba(229,191,107,1)}}
 .vb-brand-copy strong{display:block;font:500 18px/1 'Bodoni Moda',Georgia,serif}.vb-brand-copy span{display:block;margin-top:4px;font:500 7px/1 'DM Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#6f8499}
@@ -615,6 +615,38 @@ html[data-vb-theme="dark"] #vbBackendStatus{
 }
 </style>
 
+
+<style id="vbLightDefaultFix">
+html:not([data-vb-theme="dark"]),
+html[data-vb-theme="light"],
+html:not([data-vb-theme="dark"]) body,
+html[data-vb-theme="light"] body{
+  background:#f7f5f0!important;
+  color:#163650!important;
+}
+html:not([data-vb-theme="dark"]) #vbStage,
+html:not([data-vb-theme="dark"]) #vbFrame,
+html[data-vb-theme="light"] #vbStage,
+html[data-vb-theme="light"] #vbFrame{
+  background:#f7f5f0!important;
+}
+html[data-vb-theme="light"] #vbSiteMenu{
+  background:#f7f4ee!important;
+  color:#163650!important;
+  border-color:rgba(22,54,80,.08)!important;
+}
+html[data-vb-theme="light"] #vbSiteMenu .vb-menu-item{
+  color:#4f687b!important;
+}
+html[data-vb-theme="light"] #vbSiteMenu .vb-menu-item.active{
+  background:rgba(22,54,80,.065)!important;
+  color:#173752!important;
+}
+html[data-vb-theme="light"] #vbBackendStatus{
+  background:rgba(255,250,248,.98)!important;
+}
+</style>
+
 </head>
 <body class="vb-login-route">
 <div id="vbReadingProgress" aria-hidden="true"><span></span></div>
@@ -865,13 +897,21 @@ try{
     localStorage.removeItem('viajebem-prototype-session');
     localStorage.removeItem('viajebem-last-login');
     localStorage.removeItem('viajebem-theme');
+    localStorage.removeItem('viajebem-theme-light-default-v2');
   }
 }catch(e){}
 
 let vbAuthenticated=false, vbCurrent='login', vbLoadToken=0;
-let vbTheme='dark';
-try{vbTheme=localStorage.getItem('viajebem-theme')||'dark'}catch(e){}
-if(vbTheme!=='light'&&vbTheme!=='dark')vbTheme='dark';
+const VB_THEME_MIGRATION='viajebem-theme-light-default-v2';
+let vbTheme='light';
+try{
+  if(localStorage.getItem(VB_THEME_MIGRATION)!=='1'){
+    localStorage.setItem('viajebem-theme','light');
+    localStorage.setItem(VB_THEME_MIGRATION,'1');
+  }
+  vbTheme=localStorage.getItem('viajebem-theme')||'light';
+}catch(e){vbTheme='light'}
+if(vbTheme!=='light'&&vbTheme!=='dark')vbTheme='light';
 let vbSidebarCollapsed=false;
 try{vbSidebarCollapsed=localStorage.getItem('viajebem-sidebar-collapsed')==='1'}catch(e){}
 if(window.self!==window.top)document.body.classList.add('vb-embedded');
@@ -935,14 +975,4 @@ function setMenu(open){
 function completions(){try{return JSON.parse(localStorage.getItem('viajebem-completed-v3')||'{}')||{}}catch(e){return {}}}
 function opened(){try{return new Set(JSON.parse(localStorage.getItem('viajebem-opened-v3')||'[]'))}catch(e){return new Set()}}
 function saveOpened(route){const id=VB_ROUTE_ID[route];if(!id)return;const s=opened();s.add(id);try{localStorage.setItem('viajebem-opened-v3',JSON.stringify([...s]))}catch(e){}}
-function markComplete(route,detail){const id=VB_ROUTE_ID[route];if(!id)return;const c=completions();if(!c[id])c[id]=new Date().toISOString();try{localStorage.setItem('viajebem-completed-v3',JSON.stringify(c))}catch(e){};refreshProgress();toastMsg('Checkpoint '+id+' concluído ✓')}
-function refreshProgress(){const c=completions();document.querySelectorAll('.vb-menu-item[data-page]').forEach(b=>{const r=b.dataset.page,id=VB_ROUTE_ID[r],done=!!c[id],seen=opened().has(id);b.classList.toggle('completed',done);const s=b.querySelector('[data-menu-state]');if(s)s.textContent=done?'Concluído':seen?'Em curso':'Checkpoint';})}
-
-function bridge(route){
-  const routesJSON=JSON.stringify([...VB_ORDER,'home']);
-  const idRouteJSON=JSON.stringify(VB_ID_ROUTE);
-  const routeJSON=JSON.stringify(route);
-  return '<script>(function(){'+
-    'const ROUTES=new Set('+routesJSON+'),ID_ROUTE='+idRouteJSON+';'+
-    'window.vbLoginSuccess=function(){parent.postMessage({type:"vb-login-success"},"*")};'+
-    'document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("a");const print=e.target.closest&&e.target.closest("[data-vb-print]");if(print){e.preventDefault();window.print();return}if(!a)return;const id=a.dataset&&a.dataset.id;let r=(a.dataset&&a.dataset.vbRoute)||((a.getAttribute("href")||"").match(/^#(home|onboarding|first|airport|hotel|move|dine|shop|care|wine|final)$/)||[])[1];if(!r
+function markComplete(route,detail){const id=VB_ROUTE_ID[route];if(!id)return;const c=completions();if(!c[id])c[id]=new Date().toISOString();try{localStorage.setItem('viajebem-completed-v3'
