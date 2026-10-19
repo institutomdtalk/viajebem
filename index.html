@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viaje-bem-build" content="2026.10.19-safe-boot-backend-final">
+<meta name="viaje-bem-build" content="2026.10.19-login-bridge-fix-1">
 
 <meta name="theme-color" content="#f7f5f0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -647,6 +647,11 @@ html[data-vb-theme="light"] #vbBackendStatus{
 }
 </style>
 
+
+<style id="vbBackendStatusQuiet">
+#vbBackendStatus{display:none!important}
+</style>
+
 </head>
 <body class="vb-login-route">
 <div id="vbReadingProgress" aria-hidden="true"><span></span></div>
@@ -732,8 +737,17 @@ const VBBackend=(function(){
     while(waiters.length) waiters.shift()();
   }
 
+  let started=false;
+
+  function init(){
+    if(started||!enabled()||!iframe)return;
+    started=true;
+    iframe.src=VB_API_URL+(VB_API_URL.includes('?')?'&':'?')+'mode=bridge&v=1';
+  }
+
   function whenReady(timeout=12000){
     if(!enabled()) return Promise.reject(new Error('BACKEND_NOT_CONFIGURED'));
+    init();
     if(ready) return Promise.resolve();
     return new Promise((resolve,reject)=>{
       let done=false;
@@ -741,11 +755,6 @@ const VBBackend=(function(){
       const t=setTimeout(()=>{if(done)return;done=true;reject(new Error('BACKEND_TIMEOUT'))},timeout);
       waiters.push(ok);
     });
-  }
-
-  function init(){
-    if(!enabled()) return;
-    iframe.src=VB_API_URL+(VB_API_URL.includes('?')?'&':'?')+'mode=bridge&v=1';
   }
 
   window.addEventListener('message',e=>{
@@ -806,12 +815,14 @@ async function vbBackendLoginRequest(d){
   const child=frame.contentWindow;
   if(VBBackend.enabled()){
     try{
-      vbEnsureBackendBridge();
       const result=await VBBackend.call('login',{
         login:d.login,password:d.password,remember:!!d.remember,user_agent:navigator.userAgent
       });
       if(!result||!result.ok){
-        child.postMessage({type:'vb-login-result',ok:false,error:(result&&result.error)||'Login ou senha incorretos.'},'*');
+        const code=result&&result.code?String(result.code):'LOGIN_ERROR';
+        const msg=(result&&result.error)||'Login ou senha incorretos.';
+        console.warn('VIAJE_BEM_LOGIN',code,msg);
+        child.postMessage({type:'vb-login-result',ok:false,error:msg,code:code},'*');
         return;
       }
       vbStoreToken(result.token,!!d.remember);
@@ -821,7 +832,7 @@ async function vbBackendLoginRequest(d){
       setTimeout(()=>render('home',{replace:true}),240);
       return;
     }catch(err){
-      child.postMessage({type:'vb-login-result',ok:false,error:'Não foi possível conectar ao servidor. Tente novamente.'},'*');
+      child.postMessage({type:'vb-login-result',ok:false,error:'Não foi possível validar seu acesso agora. Verifique a implantação do Apps Script e tente novamente.'},'*');
       return;
     }
   }
@@ -891,7 +902,6 @@ async function vbStartBackend(){
     vbHideBackendError();
     return true;
   }catch(e){
-    vbShowBackendError('O curso abriu normalmente, mas o servidor de progresso não respondeu.');
     return false;
   }
 }
@@ -1061,10 +1071,11 @@ try{
     history.replaceState({route:initial},'','#'+initial);
   }
 
-  setTimeout(async()=>{
-    const online=await vbStartBackend();
-    if(online&&vbSavedToken())vbRestoreBackendSession();
-  },150);
+  // No banner/health check on normal load.
+  // The backend starts only when a real request is needed.
+  if(vbSavedToken()){
+    setTimeout(()=>vbRestoreBackendSession(),180);
+  }
 }catch(err){
   console.error('VIAJE_BEM_BOOT_ERROR',err);
   vbShowBackendError('Falha ao iniciar a interface. Recarregue a página.');
