@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viaje-bem-build" content="2026.10.19-light-default-fix-1">
+<meta name="viaje-bem-build" content="2026.10.19-safe-boot-backend-final">
 
 <meta name="theme-color" content="#f7f5f0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -806,6 +806,7 @@ async function vbBackendLoginRequest(d){
   const child=frame.contentWindow;
   if(VBBackend.enabled()){
     try{
+      vbEnsureBackendBridge();
       const result=await VBBackend.call('login',{
         login:d.login,password:d.password,remember:!!d.remember,user_agent:navigator.userAgent
       });
@@ -864,21 +865,36 @@ async function vbRecordQuiz(route,detail){
   return false;
 }
 
-VBBackend.init();
-setTimeout(async()=>{
-  if(!VBBackend.enabled())return;
-  try{
-    const r=await VBBackend.call('health',{},8000);
-    if(!r||!r.ok)throw new Error('health');
-  }catch(e){
-    const box=document.getElementById('vbBackendStatus');
-    if(box){
-      box.textContent='Não foi possível conectar ao servidor do VIAJE BEM. Recarregue a página ou tente novamente em alguns instantes.';
-      box.classList.add('show');
-    }
-  }
-},900);
 
+let vbBackendStarted=false;
+function vbEnsureBackendBridge(){
+  if(vbBackendStarted||!VBBackend.enabled())return;
+  vbBackendStarted=true;
+  try{VBBackend.init()}catch(e){vbBackendStarted=false;throw e}
+}
+function vbShowBackendError(message){
+  const box=document.getElementById('vbBackendStatus');
+  if(!box)return;
+  box.textContent=message||'Não foi possível conectar ao servidor do VIAJE BEM.';
+  box.classList.add('show');
+}
+function vbHideBackendError(){
+  const box=document.getElementById('vbBackendStatus');
+  if(box)box.classList.remove('show');
+}
+async function vbStartBackend(){
+  if(!VBBackend.enabled())return false;
+  try{
+    vbEnsureBackendBridge();
+    const r=await VBBackend.call('health',{},10000);
+    if(!r||!r.ok)throw new Error('BACKEND_HEALTH_FAILED');
+    vbHideBackendError();
+    return true;
+  }catch(e){
+    vbShowBackendError('O curso abriu normalmente, mas o servidor de progresso não respondeu.');
+    return false;
+  }
+}
 
 const VB_META={"onboarding":{"code":"00","title":"Welcome / Onboarding","accent":"#e5bf6b"},"first":{"code":"01","title":"First Impressions","accent":"#c4956d"},"airport":{"code":"02","title":"Airport, Flight & Immigration","accent":"#6bafe8"},"hotel":{"code":"03","title":"Accommodation & Hotel Stays","accent":"#e3b9ae"},"move":{"code":"04","title":"Getting Around","accent":"#c9c0ae"},"dine":{"code":"05","title":"Dining & Drinks","accent":"#c9b37e"},"shop":{"code":"06","title":"Shopping Abroad","accent":"#b7aae0"},"care":{"code":"07","title":"Pharmacy & Medical Emergencies","accent":"#5cc2a5"},"wine":{"code":"B1","title":"Wine English","accent":"#e0c47a"},"final":{"code":"B2","title":"The Confident Traveler","accent":"#c4a872"}};
 const VB_ORDER=["onboarding","first","airport","hotel","move","dine","shop","care","wine","final"];
@@ -975,4 +991,159 @@ function setMenu(open){
 function completions(){try{return JSON.parse(localStorage.getItem('viajebem-completed-v3')||'{}')||{}}catch(e){return {}}}
 function opened(){try{return new Set(JSON.parse(localStorage.getItem('viajebem-opened-v3')||'[]'))}catch(e){return new Set()}}
 function saveOpened(route){const id=VB_ROUTE_ID[route];if(!id)return;const s=opened();s.add(id);try{localStorage.setItem('viajebem-opened-v3',JSON.stringify([...s]))}catch(e){}}
-function markComplete(route,detail){const id=VB_ROUTE_ID[route];if(!id)return;const c=completions();if(!c[id])c[id]=new Date().toISOString();try{localStorage.setItem('viajebem-completed-v3'
+function markComplete(route,detail){const id=VB_ROUTE_ID[route];if(!id)return;const c=completions();if(!c[id])c[id]=new Date().toISOString();try{localStorage.setItem('viajebem-completed-v3',JSON.stringify(c))}catch(e){};refreshProgress();toastMsg('Checkpoint '+id+' concluído ✓')}
+function refreshProgress(){const c=completions();document.querySelectorAll('.vb-menu-item[data-page]').forEach(b=>{const r=b.dataset.page,id=VB_ROUTE_ID[r],done=!!c[id],seen=opened().has(id);b.classList.toggle('completed',done);const s=b.querySelector('[data-menu-state]');if(s)s.textContent=done?'Concluído':seen?'Em curso':'Checkpoint';})}
+
+function bridge(route){
+  const routesJSON=JSON.stringify([...VB_ORDER,'home']);
+  const idRouteJSON=JSON.stringify(VB_ID_ROUTE);
+  const routeJSON=JSON.stringify(route);
+  return '<script>(function(){'+
+    'const ROUTES=new Set('+routesJSON+'),ID_ROUTE='+idRouteJSON+';'+
+    'window.vbLoginSuccess=function(){parent.postMessage({type:"vb-login-success"},"*")};'+
+    'document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("a");const print=e.target.closest&&e.target.closest("[data-vb-print]");if(print){e.preventDefault();window.print();return}if(!a)return;const id=a.dataset&&a.dataset.id;let r=(a.dataset&&a.dataset.vbRoute)||((a.getAttribute("href")||"").match(/^#(home|onboarding|first|airport|hotel|move|dine|shop|care|wine|final)$/)||[])[1];if(!r&&a.dataset&&a.dataset.moduleLink&&id)r=ID_ROUTE[id];if(r&&ROUTES.has(r)){e.preventDefault();e.stopImmediatePropagation();parent.postMessage({type:"vb-route",route:r},"*")}},true);'+
+    'document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("[data-complete]"))setTimeout(()=>parent.postMessage({type:"vb-sync-progress"},"*"),40)},true);'+
+    'const __vbQuizDone=function(e){parent.postMessage({type:"vb-quiz-complete",route:'+routeJSON+',detail:e.detail||null},"*")};document.addEventListener("viajebem:quiz-complete",__vbQuizDone);window.addEventListener("viajebem:quiz-complete",__vbQuizDone);'+
+    'document.querySelectorAll(".vb-dl-btn").forEach(function(x){if(x.tagName==="A"){x.removeAttribute("download");x.setAttribute("href","#")}x.setAttribute("data-vb-print","")});'+
+    'let raf=0;function sendScroll(){raf=0;const d=document.documentElement,b=document.body;const y=window.scrollY||d.scrollTop||b.scrollTop||0;const max=Math.max(1,Math.max(d.scrollHeight,b.scrollHeight)-innerHeight);parent.postMessage({type:"vb-scroll",progress:Math.max(0,Math.min(1,y/max)),y:y},"*")}window.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(sendScroll)},{passive:true});'+
+    'addEventListener("load",()=>{sendScroll();parent.postMessage({type:"vb-ready",route:'+routeJSON+'},"*")});'+
+    'addEventListener("message",e=>{if(!e.data)return;if(e.data.type==="vb-scroll-top")scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});if(e.data.type==="vb-theme"){document.documentElement.setAttribute("data-vb-theme",e.data.theme);document.body.setAttribute("data-vb-theme",e.data.theme)}});'+
+  '})();<\/script>';
+}
+
+function prepareSrcdoc(route){
+  let html=decodePage(route);
+  html=html.replace(/<html([^>]*)>/i,function(_,attrs){
+    const clean=String(attrs||'').replace(/\sdata-vb-theme=(["']).*?\1/i,'');
+    return '<html'+clean+' data-vb-theme="'+vbTheme+'">';
+  });
+  html=/<\/head>/i.test(html)?html.replace(/<\/head>/i,VB_GLOBAL_THEME_CSS+'</head>'):VB_GLOBAL_THEME_CSS+html;
+  const b=bridge(route);
+  return /<\/body>/i.test(html)?html.replace(/<\/body>/i,b+'</body>'):html+b;
+}
+function routeTitle(route){return route==='home'?'Home / Course Map':(VB_META[route]?.title||'Student Access')}
+function routeCode(route){return route==='home'?'MAP':(VB_META[route]?.code||'')}
+function render(route,opts={}){if(route!=='login'&&!vbAuthenticated)route='login';if(!VB_DATA[route])return;vbCurrent=route;vbLoadToken++;document.body.classList.toggle('vb-logged',route!=='login');document.body.classList.toggle('vb-login-route',route==='login');if(isDesktopSidebar())syncSidebar();else setMenu(false);document.getElementById('vbReadingProgress').firstElementChild.style.width='0%';topBtn.classList.remove('visible');if(route!=='login'){const meta=route==='home'?{title:'Home / Course Map',code:'MAP',accent:'#74d7ff'}:VB_META[route];document.documentElement.style.setProperty('--accent',meta.accent||'#74d7ff');document.querySelectorAll('.vb-menu-item').forEach(b=>b.classList.toggle('active',b.dataset.page===route));const homeItem=document.getElementById('vbMenuHome');if(homeItem)homeItem.classList.toggle('active',route==='home');if(route!=='home')saveOpened(route);refreshProgress();}document.title='Viaje Bem · '+routeTitle(route);frame.title='Viaje Bem — '+routeTitle(route);frame.srcdoc=prepareSrcdoc(route);if(route!=='login'&&route!=='home')setTimeout(()=>vbRecordModuleOpen(route),80);if(opts.history!==false){const h='#'+route;if(opts.replace)history.replaceState({route},'',h);else if(location.hash!==h)history.pushState({route},'',h)}}
+function logout(){const t=vbSavedToken();if(t&&VBBackend.enabled())VBBackend.call('logout',{token:t}).catch(()=>{});vbClearToken();vbAuthenticated=false;render('login',{replace:true})}
+window.addEventListener('message',e=>{
+  const d=e.data||{};
+  if(e.source===frame.contentWindow&&d.type==='vb-login-request'){
+    vbBackendLoginRequest(d);
+  }
+});
+window.addEventListener('message',e=>{const d=e.data||{};if(d.type==='vb-login-success'){vbAuthenticated=true;render('home');return}if(d.type==='vb-route'&&VB_DATA[d.route]){render(d.route);return}if(d.type==='vb-quiz-complete'){if(VBBackend.enabled()&&vbSavedToken()){vbRecordQuiz(d.route,d.detail);return}markComplete(d.route,d.detail);return}if(d.type==='vb-sync-progress'){setTimeout(refreshProgress,60);return}if(d.type==='vb-ready'){try{frame.contentWindow.postMessage({type:'vb-theme',theme:vbTheme},'*')}catch(err){};return}if(d.type==='vb-scroll'){document.getElementById('vbReadingProgress').firstElementChild.style.width=(d.progress*100)+'%';topBtn.classList.toggle('visible',d.y>500)}});
+document.getElementById('vbThemeToggle').addEventListener('click',toggleTheme);
+menuToggle.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
+document.getElementById('vbMenuClose').addEventListener('click',()=>{if(isDesktopSidebar())setSidebarCollapsed(!vbSidebarCollapsed);else setMenu(false)});
+backdrop.addEventListener('click',()=>setMenu(false));
+document.getElementById('vbMenuHome').addEventListener('click',()=>{render('home');if(!isDesktopSidebar())setMenu(false)});
+document.getElementById('vbMenuPrint').addEventListener('click',()=>{if(!isDesktopSidebar())setMenu(false);try{frame.contentWindow.print()}catch(e){toastMsg('Use Ctrl/Cmd + P para salvar ou imprimir.')}});
+document.getElementById('vbLogout').addEventListener('click',logout);
+document.querySelectorAll('.vb-menu-item[data-page]').forEach(b=>b.addEventListener('click',()=>{render(b.dataset.page);if(!isDesktopSidebar())setMenu(false)}));
+topBtn.addEventListener('click',()=>frame.contentWindow.postMessage({type:'vb-scroll-top'},'*'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!isDesktopSidebar())setMenu(false)});
+window.addEventListener('resize',()=>syncSidebar(),{passive:true});
+window.addEventListener('popstate',()=>{const r=(location.hash||'').slice(1);if(VB_DATA[r])render(r,{history:false})});
+applyTheme(vbTheme,false);
+try{vbAuthenticated=!!vbSavedToken()}catch(e){vbAuthenticated=false}
+
+let initial=(location.hash||'').slice(1);
+if(!VB_DATA[initial])initial=vbAuthenticated?'home':'login';
+if(!vbAuthenticated&&initial!=='login')initial='login';
+if(vbAuthenticated&&initial==='login')initial='home';
+
+try{
+  render(initial,{history:false,replace:true});
+  refreshProgress();
+  syncSidebar();
+
+  if(location.hash!=='#'+initial){
+    history.replaceState({route:initial},'','#'+initial);
+  }
+
+  setTimeout(async()=>{
+    const online=await vbStartBackend();
+    if(online&&vbSavedToken())vbRestoreBackendSession();
+  },150);
+}catch(err){
+  console.error('VIAJE_BEM_BOOT_ERROR',err);
+  vbShowBackendError('Falha ao iniciar a interface. Recarregue a página.');
+}
+</script>
+
+<script id="vbIOSShellRuntime">
+(function(){
+  const root=document.documentElement;
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  root.classList.toggle('vb-ios',isIOS);
+  function syncViewport(){
+    const h=window.visualViewport&&window.visualViewport.height?window.visualViewport.height:window.innerHeight;
+    if(h)root.style.setProperty('--vb-visual-h',Math.round(h)+'px');
+  }
+  syncViewport();
+  addEventListener('resize',syncViewport,{passive:true});
+  addEventListener('orientationchange',function(){setTimeout(syncViewport,80);setTimeout(syncViewport,350)},{passive:true});
+  if(window.visualViewport){
+    visualViewport.addEventListener('resize',syncViewport,{passive:true});
+    visualViewport.addEventListener('scroll',syncViewport,{passive:true});
+  }
+})();
+</script>
+
+
+<script id="vbBootGuard">
+(function(){
+  function safeText(v){
+    return String(v||'').replace(/[<>]/g,'').slice(0,180);
+  }
+
+  function reloadFresh(){
+    location.href = location.pathname + '?fresh=1#login';
+  }
+
+  function showFallback(reason){
+    const frame=document.getElementById('vbFrame');
+    if(frame && frame.srcdoc && frame.srcdoc.length>500) return;
+
+    const stage=document.getElementById('vbStage');
+    if(!stage) return;
+
+    stage.innerHTML =
+      '<div style="min-height:100vh;display:grid;place-items:center;padding:28px;background:#f7f5f0;color:#163650;font-family:Arial,sans-serif">' +
+        '<div style="width:min(560px,100%);padding:30px;border:1px solid rgba(22,54,80,.12);border-radius:18px;background:white">' +
+          '<div style="font-family:Georgia,serif;font-size:29px;margin-bottom:10px">Viaje Bem</div>' +
+          '<p style="margin:0 0 18px;color:#627587;line-height:1.6">Não foi possível iniciar o ambiente do curso.</p>' +
+          '<button id="vbFallbackReload" type="button" style="height:44px;padding:0 18px;border:0;border-radius:10px;background:#163650;color:white;font-weight:700;cursor:pointer">Recarregar acesso</button>' +
+          (reason ? '<div style="margin-top:14px;font-size:11px;color:#9a6d68">' + safeText(reason) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+
+    const btn=document.getElementById('vbFallbackReload');
+    if(btn) btn.addEventListener('click',reloadFresh);
+  }
+
+  window.addEventListener('error',function(e){
+    setTimeout(function(){
+      showFallback(e.message||'Erro de inicialização');
+    },0);
+  });
+
+  window.addEventListener('unhandledrejection',function(e){
+    const reason=e.reason&&e.reason.message ? e.reason.message : String(e.reason||'');
+    if(/BACKEND|SESSION|NETWORK|FETCH/i.test(reason)) return;
+    setTimeout(function(){
+      showFallback(reason);
+    },0);
+  });
+
+  setTimeout(function(){
+    const frame=document.getElementById('vbFrame');
+    if(!frame || !frame.srcdoc || frame.srcdoc.length<500){
+      showFallback('A interface não foi carregada.');
+    }
+  },1800);
+})();
+</script>
+
+</body>
+</html>
