@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viaje-bem-build" content="2026.10.19-login-bridge-fix-1">
+<meta name="viaje-bem-build" content="2026.10.19-post-bridge-v1">
 
 <meta name="theme-color" content="#f7f5f0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -592,15 +592,6 @@ body{
 </style>
 
 
-<style id="vbBackendBridgeStyle">
-#vbBackendBridge{
-  position:fixed!important;left:-10000px!important;top:-10000px!important;
-  width:2px!important;height:2px!important;border:0!important;opacity:0!important;
-  pointer-events:none!important;
-}
-</style>
-
-
 <style id="vbBackendStatusStyles">
 #vbBackendStatus{
   position:fixed;z-index:2147483500;right:14px;top:14px;
@@ -707,7 +698,6 @@ html[data-vb-theme="light"] #vbBackendStatus{
   </div>
 </aside>
 
-<iframe id="vbBackendBridge" title="Viaje Bem Backend" aria-hidden="true" tabindex="-1"></iframe>
 <div id="vbBackendStatus" role="status" aria-live="polite"></div>
 
 <div id="vbToast" role="status" aria-live="polite"></div>
@@ -723,63 +713,95 @@ const VB_API_URL='https://script.google.com/macros/s/AKfycbxUexYuKeZ_pluFyRRQFu7
 const VB_BACKEND_MARK='VIAJE_BEM_BACKEND_V1';
 
 const VBBackend=(function(){
-  const iframe=document.getElementById('vbBackendBridge');
-  let ready=false, seq=0;
+  const MARK='VIAJE_BEM_POST_V1';
   const pending=new Map();
-  const waiters=[];
+  let seq=0;
 
   function enabled(){
     return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?|$)/.test(VB_API_URL);
   }
 
-  function resolveReady(){
-    ready=true;
-    while(waiters.length) waiters.shift()();
+  function cleanup(id){
+    const item=pending.get(id);
+    if(!item)return;
+    clearTimeout(item.timer);
+    try{item.form.remove()}catch(e){}
+    try{item.frame.remove()}catch(e){}
+    pending.delete(id);
   }
 
-  let started=false;
-
-  function init(){
-    if(started||!enabled()||!iframe)return;
-    started=true;
-    iframe.src=VB_API_URL+(VB_API_URL.includes('?')?'&':'?')+'mode=bridge&v=1';
-  }
-
-  function whenReady(timeout=12000){
-    if(!enabled()) return Promise.reject(new Error('BACKEND_NOT_CONFIGURED'));
-    init();
-    if(ready) return Promise.resolve();
-    return new Promise((resolve,reject)=>{
-      let done=false;
-      const ok=()=>{if(done)return;done=true;clearTimeout(t);resolve()};
-      const t=setTimeout(()=>{if(done)return;done=true;reject(new Error('BACKEND_TIMEOUT'))},timeout);
-      waiters.push(ok);
-    });
-  }
-
-  window.addEventListener('message',e=>{
-    if(e.source!==iframe.contentWindow)return;
+  window.addEventListener('message',function(e){
     const d=e.data||{};
-    if(d.mark!==VB_BACKEND_MARK)return;
-    if(d.type==='ready'){resolveReady();return}
-    if(d.type!=='response'||!d.id)return;
-    const p=pending.get(d.id);
-    if(!p)return;
-    pending.delete(d.id);clearTimeout(p.t);
-    p.resolve(d.result||{ok:false,error:'Resposta vazia do backend.'});
+    if(d.mark!==MARK||d.type!=='response'||!d.id)return;
+
+    // Google Apps Script responses may come from script.google.com or
+    // script.googleusercontent.com depending on the redirect/sandbox layer.
+    const origin=String(e.origin||'');
+    if(origin && !/^https:\/\/(?:script\.google\.com|script\.googleusercontent\.com)$/.test(origin)){
+      return;
+    }
+
+    const item=pending.get(d.id);
+    if(!item)return;
+
+    const result=d.result||{ok:false,code:'EMPTY_RESPONSE',error:'Resposta vazia do backend.'};
+    cleanup(d.id);
+    item.resolve(result);
   });
 
-  async function call(action,payload={},timeout=15000){
-    await whenReady();
+  function call(action,payload={},timeout=25000){
+    if(!enabled())return Promise.reject(new Error('BACKEND_NOT_CONFIGURED'));
+
     return new Promise((resolve,reject)=>{
       const id='vb_'+Date.now().toString(36)+'_'+(++seq).toString(36);
-      const t=setTimeout(()=>{pending.delete(id);reject(new Error('BACKEND_REQUEST_TIMEOUT'))},timeout);
-      pending.set(id,{resolve,reject,t});
-      iframe.contentWindow.postMessage({mark:VB_BACKEND_MARK,id,action,payload},'*');
+      const frameName='vb_rpc_frame_'+id;
+
+      const frame=document.createElement('iframe');
+      frame.name=frameName;
+      frame.title='Viaje Bem RPC';
+      frame.setAttribute('aria-hidden','true');
+      frame.tabIndex=-1;
+      frame.style.cssText='position:fixed;left:-10000px;top:-10000px;width:2px;height:2px;border:0;opacity:0;pointer-events:none';
+
+      const form=document.createElement('form');
+      form.method='POST';
+      form.action=VB_API_URL;
+      form.target=frameName;
+      form.acceptCharset='UTF-8';
+      form.style.display='none';
+
+      function field(name,value){
+        const input=document.createElement('input');
+        input.type='hidden';
+        input.name=name;
+        input.value=value;
+        form.appendChild(input);
+      }
+
+      field('request_id',id);
+      field('action',String(action||''));
+      field('origin',location.origin);
+      field('payload',JSON.stringify(payload||{}));
+
+      const timer=setTimeout(()=>{
+        cleanup(id);
+        reject(new Error('BACKEND_REQUEST_TIMEOUT'));
+      },timeout);
+
+      pending.set(id,{resolve,reject,timer,frame,form});
+      document.body.appendChild(frame);
+      document.body.appendChild(form);
+
+      try{
+        form.submit();
+      }catch(err){
+        cleanup(id);
+        reject(err);
+      }
     });
   }
 
-  return {enabled,init,whenReady,call};
+  return {enabled,call};
 })();
 
 function vbSavedToken(){
@@ -832,7 +854,7 @@ async function vbBackendLoginRequest(d){
       setTimeout(()=>render('home',{replace:true}),240);
       return;
     }catch(err){
-      child.postMessage({type:'vb-login-result',ok:false,error:'Não foi possível validar seu acesso agora. Verifique a implantação do Apps Script e tente novamente.'},'*');
+      child.postMessage({type:'vb-login-result',ok:false,error:'Não foi possível concluir a comunicação com o servidor. Tente novamente em alguns instantes.'},'*');
       return;
     }
   }
@@ -878,11 +900,7 @@ async function vbRecordQuiz(route,detail){
 
 
 let vbBackendStarted=false;
-function vbEnsureBackendBridge(){
-  if(vbBackendStarted||!VBBackend.enabled())return;
-  vbBackendStarted=true;
-  try{VBBackend.init()}catch(e){vbBackendStarted=false;throw e}
-}
+
 function vbShowBackendError(message){
   const box=document.getElementById('vbBackendStatus');
   if(!box)return;
@@ -893,18 +911,7 @@ function vbHideBackendError(){
   const box=document.getElementById('vbBackendStatus');
   if(box)box.classList.remove('show');
 }
-async function vbStartBackend(){
-  if(!VBBackend.enabled())return false;
-  try{
-    vbEnsureBackendBridge();
-    const r=await VBBackend.call('health',{},10000);
-    if(!r||!r.ok)throw new Error('BACKEND_HEALTH_FAILED');
-    vbHideBackendError();
-    return true;
-  }catch(e){
-    return false;
-  }
-}
+
 
 const VB_META={"onboarding":{"code":"00","title":"Welcome / Onboarding","accent":"#e5bf6b"},"first":{"code":"01","title":"First Impressions","accent":"#c4956d"},"airport":{"code":"02","title":"Airport, Flight & Immigration","accent":"#6bafe8"},"hotel":{"code":"03","title":"Accommodation & Hotel Stays","accent":"#e3b9ae"},"move":{"code":"04","title":"Getting Around","accent":"#c9c0ae"},"dine":{"code":"05","title":"Dining & Drinks","accent":"#c9b37e"},"shop":{"code":"06","title":"Shopping Abroad","accent":"#b7aae0"},"care":{"code":"07","title":"Pharmacy & Medical Emergencies","accent":"#5cc2a5"},"wine":{"code":"B1","title":"Wine English","accent":"#e0c47a"},"final":{"code":"B2","title":"The Confident Traveler","accent":"#c4a872"}};
 const VB_ORDER=["onboarding","first","airport","hotel","move","dine","shop","care","wine","final"];
@@ -1071,8 +1078,6 @@ try{
     history.replaceState({route:initial},'','#'+initial);
   }
 
-  // No banner/health check on normal load.
-  // The backend starts only when a real request is needed.
   if(vbSavedToken()){
     setTimeout(()=>vbRestoreBackendSession(),180);
   }
