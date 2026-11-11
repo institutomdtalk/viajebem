@@ -2375,13 +2375,12 @@ let vbModulesMenuInitiallyOpen=false;
 try{vbModulesMenuInitiallyOpen=localStorage.getItem(vbModulesMenuKey)==='1'}catch{}
 setModulesOpen(vbModulesMenuInitiallyOpen,false);
 document.getElementById('vbModulesToggle').addEventListener('click',()=>{
-  // Quando a barra está em modo só ícones, primeiro abri-la para exibir os oito nomes.
+  // Ao clicar em Módulos, abra a página com todos os módulos e mantenha a sublista disponível.
   if(document.body.classList.contains('nav-collapsed')&&window.innerWidth>1024){
     setSidebarCollapsed(false);
-    setModulesOpen(true);
-    return;
   }
-  setModulesOpen(document.getElementById('vbModulesSubnav').hidden);
+  setModulesOpen(true);
+  navigate('modulos');
 });
 // Persist the expanded / collapsed desktop sidebar separately from lesson progress.
 const sidebarKey='viajebem_sidebar_collapsed_v1';
